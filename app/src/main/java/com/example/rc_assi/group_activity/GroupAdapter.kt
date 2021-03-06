@@ -1,16 +1,19 @@
-package com.example.rc_assi
+package com.example.rc_assi.group_activity
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.rc_assi.R
 import com.example.rc_assi.databinding.ActivityGroupItemBinding
 
 class GroupAdapter(private val exampleList: List<GroupItem>) : RecyclerView.Adapter<GroupAdapter.GroupViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GroupViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.activity_group_item, parent, false)
-        return GroupViewHolder(itemView)
+        return GroupViewHolder(
+            itemView
+        )
     }
 
     override fun onBindViewHolder(holder: GroupViewHolder, position: Int) {

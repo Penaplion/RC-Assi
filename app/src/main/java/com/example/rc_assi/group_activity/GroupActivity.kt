@@ -13,5 +13,5 @@ class GroupActivity : AppCompatActivity() {
         binding = ActivityGroupBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
-        }
+    }
 }

@@ -12,13 +12,13 @@ class GroupAdapter(private val exampleList: List<GroupItem>) : RecyclerView.Adap
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GroupViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.activity_group_item, parent, false)
         return GroupViewHolder(
-            itemView
+                itemView
         )
     }
 
     override fun onBindViewHolder(holder: GroupViewHolder, position: Int) {
         val currentItem = exampleList[position]
-        with(holder){
+        with(holder) {
             binding.ivGroupPicture.setImageResource(currentItem.imageResource)
             binding.tvMembers.text = currentItem.members
             binding.tvGroupName.text = currentItem.groupName

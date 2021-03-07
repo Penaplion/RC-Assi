@@ -19,8 +19,8 @@ class GroupFragment : Fragment() {
     private val binding get() = _binding!!
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentGroupBinding.inflate(inflater, container, false)
 
@@ -29,7 +29,7 @@ class GroupFragment : Fragment() {
         val exampleList = generateDummyList(7)
 
         binding.rvGroupCard.adapter =
-            GroupAdapter(exampleList)
+                GroupAdapter(exampleList)
         binding.rvGroupCard.layoutManager = GridLayoutManager(view.context, 2,
                 RecyclerView.VERTICAL, false)
 
@@ -55,8 +55,7 @@ class GroupFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.btnAddCard.setOnClickListener {
-            Navigation.findNavController(view).
-                    navigate(R.id.action_groupFragment_to_editCardFragment)
+            Navigation.findNavController(view).navigate(R.id.action_groupFragment_to_editCardFragment)
         }
     }
 

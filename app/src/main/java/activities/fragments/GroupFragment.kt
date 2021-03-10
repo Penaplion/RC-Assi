@@ -1,4 +1,4 @@
-package com.example.rc_assi.group_activity.fragment
+package activities.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,13 +8,15 @@ import android.view.ViewGroup
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.rc_assi.group_activity.GroupAdapter
+import adapters.GroupAdapter
+import androidx.lifecycle.LiveData
 import com.example.rc_assi.R
 import com.example.rc_assi.databinding.FragmentGroupBinding
-import com.example.rc_assi.group_activity.GroupItem
+import data.GroupItem
+import entities.Group
+import services.AppDatabase
 
 class GroupFragment : Fragment() {
-
     private var _binding: FragmentGroupBinding? = null
     private val binding get() = _binding!!
 
@@ -24,19 +26,29 @@ class GroupFragment : Fragment() {
     ): View? {
         _binding = FragmentGroupBinding.inflate(inflater, container, false)
 
-        val view = binding.root
+        //val groupItems: List<GroupItem> = emptyList()
+        //val view = binding.root
 
-        val exampleList = generateDummyList(7)
+        val view = binding.root
+        val groupList = AppDatabase.getInstance(view.context)?.groupDao()?.getAll()
+        var groupItems: List<GroupItem> = emptyList()
+
+        groupList?.forEach {
+            val memberString = getString(R.string.groupMembersCount)
+            val memberCount = it.memberCount.toString()
+            groupItems += GroupItem(R.drawable.ic_launcher_background,it.groupName, "$memberString $memberCount")
+        }
 
         binding.rvGroupCard.adapter =
-                GroupAdapter(exampleList)
+                GroupAdapter(groupItems)
         binding.rvGroupCard.layoutManager = GridLayoutManager(view.context, 2,
                 RecyclerView.VERTICAL, false)
 
         return view
     }
 
-    private fun generateDummyList(size: Int): List<GroupItem> {
+    /*
+    private fun generateDummyList(size: Int): ArrayList<GroupItem> {
         val list = ArrayList<GroupItem>()
 
         for (i in 0 until size) {
@@ -50,6 +62,8 @@ class GroupFragment : Fragment() {
 
         return list
     }
+
+     */
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

@@ -1,4 +1,4 @@
-package com.example.rc_assi.group_activity
+package activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

@@ -1,4 +1,4 @@
-package com.example.rc_assi.group_activity
+package data
 
 data class GroupItem(
         val imageResource: Int,

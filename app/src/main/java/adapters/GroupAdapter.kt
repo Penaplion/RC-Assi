@@ -1,14 +1,17 @@
-package com.example.rc_assi.group_activity
+package adapters
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.LiveData
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rc_assi.R
 import com.example.rc_assi.databinding.FragmentGroupItemBinding
+import data.GroupItem
+import entities.Group
 
-class GroupAdapter(private val exampleList: List<GroupItem>) : RecyclerView.Adapter<GroupAdapter.GroupViewHolder>() {
+class GroupAdapter(private val groupList: List<GroupItem>) : RecyclerView.Adapter<GroupAdapter.GroupViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GroupViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.fragment_group_item, parent, false)
@@ -18,7 +21,7 @@ class GroupAdapter(private val exampleList: List<GroupItem>) : RecyclerView.Adap
     }
 
     override fun onBindViewHolder(holder: GroupViewHolder, position: Int) {
-        val currentItem = exampleList[position]
+        val currentItem = groupList[position]
         with(holder) {
             binding.ivGroupPicture.setImageResource(currentItem.imageResource)
             binding.tvMembers.text = currentItem.members
@@ -30,7 +33,7 @@ class GroupAdapter(private val exampleList: List<GroupItem>) : RecyclerView.Adap
         }
     }
 
-    override fun getItemCount() = exampleList.size
+    override fun getItemCount() = groupList.size
 
     class GroupViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val binding = FragmentGroupItemBinding.bind(itemView)

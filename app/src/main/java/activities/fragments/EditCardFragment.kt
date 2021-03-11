@@ -7,14 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isEmpty
-import androidx.core.view.size
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rc_assi.databinding.FragmentEditCardBinding
 import data.PersonItem
-import entities.Group
-import services.AppDatabase
-
 
 class EditCardFragment : Fragment() {
 
@@ -35,7 +31,6 @@ class EditCardFragment : Fragment() {
          */
         val personList = ArrayList<PersonItem>()
 
-
         binding.rvPersonsInGroup.adapter = EditCardListPersonAdapter(personList)
         binding.rvPersonsInGroup.layoutManager = LinearLayoutManager(view.context)
 
@@ -44,21 +39,15 @@ class EditCardFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val db = AppDatabase.getInstance(view.context)
-
+        // TODO("Rework")
         binding.btnCancel.setOnClickListener {
             Navigation.findNavController(view).popBackStack()
         }
 
         binding.btnFinish.setOnClickListener {
-            // Navigation.findNavController(view).popBackStack()
 
             if (!binding.rvPersonsInGroup.isEmpty() && !binding.etGroupName.text.isBlank()) {
-                // füge die Personen und die Gruppe in die DB ein
-                db?.personDao()?.insertAll((binding.rvPersonsInGroup.adapter as EditCardListPersonAdapter).getPersonList())
-                db?.groupDao()?.insert(Group(null, binding.etGroupName.text.toString(), binding.rvPersonsInGroup.size))
-
-
+                Navigation.findNavController(view).popBackStack()
             }
         }
 
@@ -70,7 +59,6 @@ class EditCardFragment : Fragment() {
             if (!binding.actvName.text.isBlank()) {
                 (binding.rvPersonsInGroup.adapter as EditCardListPersonAdapter).addItem(binding.actvName.text.toString())
             }
-
         }
     }
 

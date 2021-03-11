@@ -3,13 +3,11 @@ package adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.LiveData
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rc_assi.R
 import com.example.rc_assi.databinding.FragmentGroupItemBinding
 import data.GroupItem
-import entities.Group
 
 class GroupAdapter(private val groupList: List<GroupItem>) : RecyclerView.Adapter<GroupAdapter.GroupViewHolder>() {
 

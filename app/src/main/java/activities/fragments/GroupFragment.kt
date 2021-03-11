@@ -9,12 +9,9 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import adapters.GroupAdapter
-import androidx.lifecycle.LiveData
 import com.example.rc_assi.R
 import com.example.rc_assi.databinding.FragmentGroupBinding
 import data.GroupItem
-import entities.Group
-import services.AppDatabase
 
 class GroupFragment : Fragment() {
     private var _binding: FragmentGroupBinding? = null
@@ -26,10 +23,11 @@ class GroupFragment : Fragment() {
     ): View? {
         _binding = FragmentGroupBinding.inflate(inflater, container, false)
 
-        //val groupItems: List<GroupItem> = emptyList()
-        //val view = binding.root
+        val groupItems: List<GroupItem> = emptyList()
 
         val view = binding.root
+        /*
+        TODO("Rework")
         val groupList = AppDatabase.getInstance(view.context)?.groupDao()?.getAll()
         var groupItems: List<GroupItem> = emptyList()
 
@@ -38,7 +36,7 @@ class GroupFragment : Fragment() {
             val memberCount = it.memberCount.toString()
             groupItems += GroupItem(R.drawable.ic_launcher_background,it.groupName, "$memberString $memberCount")
         }
-
+*/
         binding.rvGroupCard.adapter =
                 GroupAdapter(groupItems)
         binding.rvGroupCard.layoutManager = GridLayoutManager(view.context, 2,

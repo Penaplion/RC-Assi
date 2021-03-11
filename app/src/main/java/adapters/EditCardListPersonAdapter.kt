@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rc_assi.R
 import com.example.rc_assi.databinding.FragmentEditCardListPersonItemBinding
-import entities.Person
+import multipleroomtables.entities.Person
 
 class EditCardListPersonAdapter(private val personList: ArrayList<PersonItem>) :
     RecyclerView.Adapter<EditCardListPersonAdapter.EditCardListPersonViewHolder>() {
@@ -47,17 +47,18 @@ class EditCardListPersonAdapter(private val personList: ArrayList<PersonItem>) :
     }
 
     fun addItem(nameOfNewPerson: String) {
-        val personToAdd: PersonItem = PersonItem(nameOfNewPerson)
+        val personToAdd = PersonItem(nameOfNewPerson)
         personList.add(personToAdd)
         notifyDataSetChanged()
     }
 
-    fun getPersonList(): ArrayList<Person> {
-       val persons = ArrayList<Person>()
+    fun getPersonList(): List<Person> {
+        val mutableList = mutableListOf<Person>()
 
         personList.forEach(){
-            persons.add(Person(null, it.name))
+            mutableList.add(Person(0, it.name))
         }
-        return persons
+
+        return mutableList
     }
 }

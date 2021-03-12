@@ -1,11 +1,15 @@
 package activities.fragments
 
 import adapters.EditCardListPersonAdapter
+import android.app.Activity
 import android.os.Bundle
+import android.text.Editable
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.core.view.isEmpty
 import androidx.core.view.size
 import androidx.lifecycle.lifecycleScope
@@ -17,6 +21,7 @@ import data.PersonItem
 import kotlinx.coroutines.launch
 import multipleroomtables.Database
 import multipleroomtables.entities.Group
+import multipleroomtables.entities.Person
 import multipleroomtables.entities.relations.PersonGroupCrossRef
 
 class EditCardFragment : Fragment() {
@@ -31,10 +36,8 @@ class EditCardFragment : Fragment() {
     ): View? {
         _binding = FragmentEditCardBinding.inflate(inflater, container, false)
         val view = binding.root
-        val personList = ArrayList<PersonItem>()
 
-        binding.rvPersonsInGroup.adapter = EditCardListPersonAdapter(personList)
-        binding.rvPersonsInGroup.layoutManager = LinearLayoutManager(view.context)
+        groupInfo(args.groupId, view)
 
         return view
     }
@@ -42,15 +45,20 @@ class EditCardFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val imm: InputMethodManager = view.context.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+
         binding.btnCancel.setOnClickListener {
+            imm.hideSoftInputFromWindow(view.windowToken, 0)
             Navigation.findNavController(view).popBackStack()
         }
 
         binding.btnFinish.setOnClickListener {
+            imm.hideSoftInputFromWindow(view.windowToken, 0)
             addGroup(view)
         }
 
         binding.ibtnDelete.setOnClickListener {
+            imm.hideSoftInputFromWindow(view.windowToken, 0)
             Navigation.findNavController(view).popBackStack()
         }
 
@@ -65,6 +73,30 @@ class EditCardFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    // show group information when group already exists
+    private fun groupInfo (groupId: Int, view: View): ArrayList<PersonItem> {
+        val list = ArrayList<PersonItem>()
+        if (groupId == 0) {
+            binding.ibtnDelete.isEnabled = false
+
+            binding.rvPersonsInGroup.adapter = EditCardListPersonAdapter(list)
+            binding.rvPersonsInGroup.layoutManager = LinearLayoutManager(view.context)
+        } else {
+            val db = Database.getInstance(view.context).dao
+            lifecycleScope.launch {
+                db.getPersonsOfGroup(groupId).forEach {
+                    binding.etGroupName.text = Editable.Factory.getInstance().newEditable(it.group.groupName)
+                    it.persons.forEach { it2 ->
+                        list += PersonItem(it2.person_name)
+                    }
+                }
+                binding.rvPersonsInGroup.adapter = EditCardListPersonAdapter(list)
+                binding.rvPersonsInGroup.layoutManager = LinearLayoutManager(view.context)
+            }
+        }
+        return list
     }
 
     // ButtonLogic

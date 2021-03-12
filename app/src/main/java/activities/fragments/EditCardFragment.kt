@@ -6,7 +6,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.view.isEmpty
 import androidx.core.view.size
 import androidx.lifecycle.lifecycleScope
@@ -32,10 +31,6 @@ class EditCardFragment : Fragment() {
     ): View? {
         _binding = FragmentEditCardBinding.inflate(inflater, container, false)
         val view = binding.root
-
-        val test = args.groupId
-        Toast.makeText(view.context, "$test", Toast.LENGTH_LONG).show()
-
         val personList = ArrayList<PersonItem>()
 
         binding.rvPersonsInGroup.adapter = EditCardListPersonAdapter(personList)

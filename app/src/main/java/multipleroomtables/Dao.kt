@@ -1,10 +1,7 @@
 package multipleroomtables
 
+import androidx.room.*
 import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
-import androidx.room.Transaction
 import multipleroomtables.entities.*
 import multipleroomtables.entities.relations.*
 
@@ -33,6 +30,17 @@ interface Dao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertPersonArticleCrossRef(crossRef: PersonArticleCrossRef)
+
+    /*
+        delete
+     */
+    @Transaction
+    @Query("DELETE FROM 'group' WHERE group_id = :group_id")
+    suspend fun deleteGroup(group_id: Int)
+
+    @Transaction
+    @Query("DELETE FROM persongroupcrossref WHERE group_id = :group_id")
+    suspend fun deletePersonGroupCrossRef(group_id: Int)
 
     /*
         getRelation

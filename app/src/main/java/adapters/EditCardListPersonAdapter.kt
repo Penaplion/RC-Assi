@@ -38,7 +38,7 @@ class EditCardListPersonAdapter(private val personList: ArrayList<PersonItem>) :
 
     }
 
-    fun removeItem(position: Int) {
+    private fun removeItem(position: Int) {
         personList.removeAt(position)
         notifyDataSetChanged()
     }

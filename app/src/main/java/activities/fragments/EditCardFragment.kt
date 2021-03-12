@@ -37,7 +37,7 @@ class EditCardFragment : Fragment() {
         _binding = FragmentEditCardBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        groupInfo(args.groupId, view)
+        groupInfo(args.groupIndex, view)
 
         return view
     }
@@ -54,12 +54,13 @@ class EditCardFragment : Fragment() {
 
         binding.btnFinish.setOnClickListener {
             imm.hideSoftInputFromWindow(view.windowToken, 0)
+//            TODO("implement functions to edit a group")
             addGroup(view)
         }
 
         binding.ibtnDelete.setOnClickListener {
             imm.hideSoftInputFromWindow(view.windowToken, 0)
-            Navigation.findNavController(view).popBackStack()
+            deleteGroup(view)
         }
 
         binding.btnAdd.setOnClickListener {
@@ -76,9 +77,9 @@ class EditCardFragment : Fragment() {
     }
 
     // show group information when group already exists
-    private fun groupInfo (groupId: Int, view: View): ArrayList<PersonItem> {
+    private fun groupInfo (groupIndex: Int, view: View): ArrayList<PersonItem> {
         val list = ArrayList<PersonItem>()
-        if (groupId == 0) {
+        if (groupIndex == 0) {
             binding.ibtnDelete.isEnabled = false
 
             binding.rvPersonsInGroup.adapter = EditCardListPersonAdapter(list)
@@ -86,6 +87,7 @@ class EditCardFragment : Fragment() {
         } else {
             val db = Database.getInstance(view.context).dao
             lifecycleScope.launch {
+                val groupId = db.getGroups()[groupIndex-1].group_id
                 db.getPersonsOfGroup(groupId).forEach {
                     binding.etGroupName.text = Editable.Factory.getInstance().newEditable(it.group.groupName)
                     it.persons.forEach { it2 ->
@@ -159,6 +161,17 @@ class EditCardFragment : Fragment() {
                 // Jump back to previous fragment
                 Navigation.findNavController(view).popBackStack()
             }
+        }
+    }
+
+    private fun deleteGroup(view: View) {
+        val db = Database.getInstance(view.context).dao
+
+        lifecycleScope.launch {
+            val groupId = db.getGroups()[args.groupIndex-1].group_id
+            db.deleteGroup(groupId)
+            db.deletePersonGroupCrossRef(groupId)
+            Navigation.findNavController(view).popBackStack()
         }
     }
 }

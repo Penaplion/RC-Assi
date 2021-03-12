@@ -9,9 +9,12 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import adapters.GroupAdapter
+import androidx.lifecycle.lifecycleScope
 import com.example.rc_assi.R
 import com.example.rc_assi.databinding.FragmentGroupBinding
 import data.GroupItem
+import kotlinx.coroutines.launch
+import multipleroomtables.Database
 
 class GroupFragment : Fragment() {
     private var _binding: FragmentGroupBinding? = null
@@ -23,45 +26,27 @@ class GroupFragment : Fragment() {
     ): View? {
         _binding = FragmentGroupBinding.inflate(inflater, container, false)
 
-        val groupItems: List<GroupItem> = emptyList()
-
         val view = binding.root
-        /*
-        TODO("Rework")
-        val groupList = AppDatabase.getInstance(view.context)?.groupDao()?.getAll()
-        var groupItems: List<GroupItem> = emptyList()
 
-        groupList?.forEach {
-            val memberString = getString(R.string.groupMembersCount)
-            val memberCount = it.memberCount.toString()
-            groupItems += GroupItem(R.drawable.ic_launcher_background,it.groupName, "$memberString $memberCount")
-        }
-*/
-        binding.rvGroupCard.adapter =
-                GroupAdapter(groupItems)
-        binding.rvGroupCard.layoutManager = GridLayoutManager(view.context, 2,
+        // create rvGroupCard content
+        lifecycleScope.launch {
+            val groupsFromDatabase = Database.getInstance(view.context).dao.getGroups()
+            val groupList: MutableList<GroupItem> = emptyList<GroupItem>().toMutableList()
+
+            groupsFromDatabase.forEach {
+                val stringMember = getString(R.string.member)
+                val amount = it.memberCount.toString()
+                groupList += GroupItem(R.drawable.ic_launcher_background,it.groupName, "$stringMember $amount")
+            }
+
+            binding.rvGroupCard.adapter =
+                GroupAdapter(groupList)
+            binding.rvGroupCard.layoutManager = GridLayoutManager(view.context, 2,
                 RecyclerView.VERTICAL, false)
+        }
 
         return view
     }
-
-    /*
-    private fun generateDummyList(size: Int): ArrayList<GroupItem> {
-        val list = ArrayList<GroupItem>()
-
-        for (i in 0 until size) {
-            val item = GroupItem(
-                    R.drawable.ic_launcher_background,
-                    "Group Name $i",
-                    "Members $i"
-            )
-            list += item
-        }
-
-        return list
-    }
-
-     */
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

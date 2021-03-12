@@ -10,6 +10,9 @@ import multipleroomtables.entities.relations.*
 
 @Dao
 interface Dao {
+    /*
+        inserts
+     */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertGroup(group: Group)
 
@@ -31,25 +34,30 @@ interface Dao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertPersonArticleCrossRef(crossRef: PersonArticleCrossRef)
 
+    /*
+        getRelation
+     */
     @Transaction
     @Query("SELECT * FROM 'group' WHERE group_id = :group_id")
     suspend fun getGroupAndEndBalanceWithGroupID(group_id: Int): List<GroupAndEndBalance>
 
     @Transaction
-    @Query("SELECT * FROM 'person' WHERE person_id = :person_id")
+    @Query("SELECT * FROM person WHERE person_id = :person_id")
     suspend fun getPersonWithReceipts(person_id: Int): List<PersonWithReceipts>
 
     @Transaction
-    @Query("SELECT * FROM 'receipt' WHERE receipt_id = :receipt_id")
+    @Query("SELECT * FROM receipt WHERE receipt_id = :receipt_id")
     suspend fun getReceiptWithArticles(receipt_id: Int): List<ReceiptWithArticles>
 
-    ///////////////////////////////////////CROSS-REF////////////////////////////////////////////
+    /*
+        getCross-Ref
+     */
     @Transaction
-    @Query("SELECT * FROM 'article' WHERE article_id = :article_id")
+    @Query("SELECT * FROM article WHERE article_id = :article_id")
     suspend fun getPersonsOfArticle(article_id: Int): List<ArticleWithPersons>
 
     @Transaction
-    @Query("SELECT * FROM 'person' WHERE person_id = :person_id")
+    @Query("SELECT * FROM person WHERE person_id = :person_id")
     suspend fun getArticlesOfPerson(person_id: Int): List<PersonWithArticles>
 
     @Transaction
@@ -57,7 +65,29 @@ interface Dao {
     suspend fun getPersonsOfGroup(group_id: Int): List<GroupWithPersons>
 
     @Transaction
-    @Query("SELECT * FROM 'person' WHERE person_id = :person_id")
+    @Query("SELECT * FROM person WHERE person_id = :person_id")
     suspend fun getGroupsOfPerson(person_id: Int): List<PersonWithGroups>
+
+    /*
+        getTable
+     */
+    @Transaction
+    @Query("SELECT * FROM 'group'")
+    suspend fun getGroups(): List<Group>
+
+    @Transaction
+    @Query("SELECT * FROM person")
+    suspend fun getPersons(): List<Person>
+
+    /*
+        isTableEmpty & getSingleEntries
+     */
+    @Transaction
+    @Query("SELECT count(1) FROM person WHERE person_name = :person_name")
+    suspend fun isInTablePersons(person_name: String): Int
+
+    @Transaction
+    @Query("SELECT * FROM person WHERE person_name = :person_name")
+    suspend fun getPerson(person_name: String): Person
 
 }

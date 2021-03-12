@@ -52,13 +52,13 @@ class EditCardListPersonAdapter(private val personList: ArrayList<PersonItem>) :
         notifyDataSetChanged()
     }
 
-    fun getPersonList(): List<Person> {
-        val mutableList = mutableListOf<Person>()
+    fun getListOfPersons(): List<Person> {
+        val list: MutableList<Person> = emptyList<Person>().toMutableList()
 
         personList.forEach(){
-            mutableList.add(Person(0, it.name))
+            list += Person(0, it.name)
         }
 
-        return mutableList
+        return list
     }
 }

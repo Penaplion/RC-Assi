@@ -28,10 +28,7 @@ class EditCardListPersonAdapter(private val personList: ArrayList<PersonItem>) :
             binding.ibtnRemovePerson.setOnClickListener {
                 removeItem(position)
             }
-
-
         }
-
     }
 
     override fun getItemCount() = personList.size

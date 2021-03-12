@@ -1,5 +1,6 @@
 package adapters
 
+import activities.fragments.GroupFragmentDirections
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +15,7 @@ class GroupAdapter(private val groupList: List<GroupItem>) : RecyclerView.Adapte
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GroupViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.fragment_group_item, parent, false)
         return GroupViewHolder(
-                itemView
+            itemView
         )
     }
 
@@ -26,7 +27,9 @@ class GroupAdapter(private val groupList: List<GroupItem>) : RecyclerView.Adapte
             binding.tvGroupName.text = currentItem.groupName
             // Navigate to another Fragment
             binding.ibtnEdit.setOnClickListener {
-                Navigation.findNavController(holder.itemView).navigate(R.id.action_groupFragment_to_editCardFragment)
+                val action = GroupFragmentDirections.actionGroupFragmentToEditCardFragment()
+                action.groupId = (position + 1)
+                Navigation.findNavController(holder.itemView).navigate(action)
             }
         }
     }

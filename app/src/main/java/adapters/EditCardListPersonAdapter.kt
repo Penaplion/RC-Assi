@@ -51,7 +51,7 @@ class EditCardListPersonAdapter(private val personList: ArrayList<PersonItem>) :
 
     fun getListOfPersons(): List<Person> {
         val list: MutableList<Person> = emptyList<Person>().toMutableList()
-        personList.forEach(){
+        personList.forEach() {
             list += Person(0, it.name)
         }
         return list

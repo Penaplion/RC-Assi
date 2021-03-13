@@ -9,7 +9,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
 import androidx.core.view.isEmpty
 import androidx.core.view.size
 import androidx.lifecycle.lifecycleScope
@@ -18,10 +17,11 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rc_assi.databinding.FragmentEditCardBinding
 import data.PersonItem
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import multipleroomtables.Database
 import multipleroomtables.entities.Group
-import multipleroomtables.entities.Person
 import multipleroomtables.entities.relations.PersonGroupCrossRef
 
 class EditCardFragment : Fragment() {
@@ -33,7 +33,7 @@ class EditCardFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentEditCardBinding.inflate(inflater, container, false)
         val view = binding.root
 
@@ -45,7 +45,8 @@ class EditCardFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val imm: InputMethodManager = view.context.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        val imm: InputMethodManager =
+            view.context.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
 
         binding.btnCancel.setOnClickListener {
             imm.hideSoftInputFromWindow(view.windowToken, 0)
@@ -56,11 +57,15 @@ class EditCardFragment : Fragment() {
             imm.hideSoftInputFromWindow(view.windowToken, 0)
 //            TODO("implement functions to edit a group")
             addGroup(view)
+
+            Navigation.findNavController(view).popBackStack()
         }
 
         binding.ibtnDelete.setOnClickListener {
             imm.hideSoftInputFromWindow(view.windowToken, 0)
             deleteGroup(view)
+
+            Navigation.findNavController(view).popBackStack()
         }
 
         binding.btnAdd.setOnClickListener {
@@ -77,41 +82,49 @@ class EditCardFragment : Fragment() {
     }
 
     // show group information when group already exists
-    private fun groupInfo (groupIndex: Int, view: View): ArrayList<PersonItem> {
+    private fun groupInfo(groupIndex: Int, view: View): ArrayList<PersonItem> {
         val list = ArrayList<PersonItem>()
         if (groupIndex == 0) {
             binding.ibtnDelete.isEnabled = false
-
-            binding.rvPersonsInGroup.adapter = EditCardListPersonAdapter(list)
-            binding.rvPersonsInGroup.layoutManager = LinearLayoutManager(view.context)
         } else {
             val db = Database.getInstance(view.context).dao
-            lifecycleScope.launch {
-                val groupId = db.getGroups()[groupIndex-1].group_id
+            runBlocking {
+                val groupId = db.getGroups()[groupIndex - 1].group_id
                 db.getPersonsOfGroup(groupId).forEach {
-                    binding.etGroupName.text = Editable.Factory.getInstance().newEditable(it.group.groupName)
+                    binding.etGroupName.text =
+                        Editable.Factory.getInstance().newEditable(it.group.groupName)
                     it.persons.forEach { it2 ->
                         list += PersonItem(it2.person_name)
                     }
                 }
-                binding.rvPersonsInGroup.adapter = EditCardListPersonAdapter(list)
-                binding.rvPersonsInGroup.layoutManager = LinearLayoutManager(view.context)
             }
         }
+
+        binding.rvPersonsInGroup.adapter = EditCardListPersonAdapter(list)
+        binding.rvPersonsInGroup.layoutManager = LinearLayoutManager(view.context)
+
         return list
     }
 
     // ButtonLogic
-    private fun addGroup (view: View) {
+    private fun addGroup(view: View) {
         if (!binding.rvPersonsInGroup.isEmpty() && binding.etGroupName.text.isNotBlank()) {
             val db = Database.getInstance(view.context).dao
-            val persons = (binding.rvPersonsInGroup.adapter as EditCardListPersonAdapter).getListOfPersons()
-            val personGroupCrossRef: MutableList<PersonGroupCrossRef> = emptyList<PersonGroupCrossRef>().toMutableList()
+            val persons =
+                (binding.rvPersonsInGroup.adapter as EditCardListPersonAdapter).getListOfPersons()
+            val personGroupCrossRef: MutableList<PersonGroupCrossRef> =
+                emptyList<PersonGroupCrossRef>().toMutableList()
             val personId: MutableList<Int> = emptyList<Int>().toMutableList()
 
-            lifecycleScope.launch {
+            GlobalScope.launch {
                 // Add Group to Database
-                db.insertGroup(Group(0, binding.etGroupName.text.toString(), binding.rvPersonsInGroup.size))
+                db.insertGroup(
+                    Group(
+                        0,
+                        binding.etGroupName.text.toString(),
+                        binding.rvPersonsInGroup.size
+                    )
+                )
 
                 // Add Persons to Database
                 persons.forEach {
@@ -125,24 +138,29 @@ class EditCardFragment : Fragment() {
                 personId.forEach {
                     personGroupCrossRef += PersonGroupCrossRef(it, db.getGroups().last().group_id)
                 }
-                personGroupCrossRef.forEach {db.insertPersonGroupCrossRef(it)}
-
-                // Jump back to previous fragment
-                Navigation.findNavController(view).popBackStack()
+                personGroupCrossRef.forEach { db.insertPersonGroupCrossRef(it) }
             }
         }
     }
 
-    private fun editGroup (view: View) {
+    private fun editGroup(view: View) {
         if (!binding.rvPersonsInGroup.isEmpty() && binding.etGroupName.text.isNotBlank()) {
             val db = Database.getInstance(view.context).dao
-            val persons = (binding.rvPersonsInGroup.adapter as EditCardListPersonAdapter).getListOfPersons()
-            val personGroupCrossRef: MutableList<PersonGroupCrossRef> = emptyList<PersonGroupCrossRef>().toMutableList()
+            val persons =
+                (binding.rvPersonsInGroup.adapter as EditCardListPersonAdapter).getListOfPersons()
+            val personGroupCrossRef: MutableList<PersonGroupCrossRef> =
+                emptyList<PersonGroupCrossRef>().toMutableList()
             val personId: MutableList<Int> = emptyList<Int>().toMutableList()
 
             lifecycleScope.launch {
                 // Add Group to Database
-                db.insertGroup(Group(0, binding.etGroupName.text.toString(), binding.rvPersonsInGroup.size))
+                db.insertGroup(
+                    Group(
+                        0,
+                        binding.etGroupName.text.toString(),
+                        binding.rvPersonsInGroup.size
+                    )
+                )
 
                 // Add Persons to Database
                 persons.forEach {
@@ -156,7 +174,7 @@ class EditCardFragment : Fragment() {
                 personId.forEach {
                     personGroupCrossRef += PersonGroupCrossRef(it, db.getGroups().last().group_id)
                 }
-                personGroupCrossRef.forEach {db.insertPersonGroupCrossRef(it)}
+                personGroupCrossRef.forEach { db.insertPersonGroupCrossRef(it) }
 
                 // Jump back to previous fragment
                 Navigation.findNavController(view).popBackStack()
@@ -167,11 +185,10 @@ class EditCardFragment : Fragment() {
     private fun deleteGroup(view: View) {
         val db = Database.getInstance(view.context).dao
 
-        lifecycleScope.launch {
-            val groupId = db.getGroups()[args.groupIndex-1].group_id
+        GlobalScope.launch {
+            val groupId = db.getGroups()[args.groupIndex - 1].group_id
             db.deleteGroup(groupId)
             db.deletePersonGroupCrossRef(groupId)
-            Navigation.findNavController(view).popBackStack()
         }
     }
 }

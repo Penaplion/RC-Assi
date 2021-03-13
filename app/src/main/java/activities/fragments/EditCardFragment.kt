@@ -173,7 +173,7 @@ class EditCardFragment : Fragment() {
                         db.insertPerson(Person(0, it.person_name))
                         personId = db.getPersonByName(it.person_name).person_id
                         db.insertPersonGroupCrossRef(PersonGroupCrossRef(personId, currentGroup.group_id))
-                    } else if (!db.groupContainsPerson(it.person_name)) { // person already exists in the database
+                    } else if (!db.groupContainsPerson(it.person_name, currentGroup.group_id)) { // person already exists in the database
                         personId = db.getPersonByName(it.person_name).person_id
                         db.insertPersonGroupCrossRef(PersonGroupCrossRef(personId, currentGroup.group_id))
                     }

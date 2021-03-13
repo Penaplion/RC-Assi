@@ -118,6 +118,6 @@ interface Dao {
     suspend fun personsContain(person_name: String): Boolean
 
     @Transaction
-    @Query("SELECT EXISTS(SELECT * FROM persongroupcrossref WHERE person_id = (SELECT person_id FROM person WHERE person_name = :person_name))")
-    suspend fun groupContainsPerson(person_name: String): Boolean
+    @Query("SELECT EXISTS(SELECT * FROM persongroupcrossref WHERE person_id = (SELECT person_id FROM person WHERE person_name = :person_name)  AND group_id = :group_id)")
+    suspend fun groupContainsPerson(person_name: String, group_id: Int): Boolean
 }

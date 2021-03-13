@@ -11,7 +11,6 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.core.view.isEmpty
 import androidx.core.view.size
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -22,7 +21,9 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import multipleroomtables.Database
 import multipleroomtables.entities.Group
+import multipleroomtables.entities.Person
 import multipleroomtables.entities.relations.PersonGroupCrossRef
+import utils.CompareLists
 
 class EditCardFragment : Fragment() {
 
@@ -55,9 +56,13 @@ class EditCardFragment : Fragment() {
 
         binding.btnFinish.setOnClickListener {
             imm.hideSoftInputFromWindow(view.windowToken, 0)
-//            TODO("implement functions to edit a group")
-            addGroup(view)
-
+            if (!binding.rvPersonsInGroup.isEmpty() && binding.etGroupName.text.isNotBlank()) {
+                if (args.groupIndex == 0) {
+                    addGroup(view)
+                } else {
+                    editGroup(view)
+                }
+            }
             Navigation.findNavController(view).popBackStack()
         }
 
@@ -108,76 +113,76 @@ class EditCardFragment : Fragment() {
 
     // ButtonLogic
     private fun addGroup(view: View) {
-        if (!binding.rvPersonsInGroup.isEmpty() && binding.etGroupName.text.isNotBlank()) {
-            val db = Database.getInstance(view.context).dao
-            val persons =
-                (binding.rvPersonsInGroup.adapter as EditCardListPersonAdapter).getListOfPersons()
-            val personGroupCrossRef: MutableList<PersonGroupCrossRef> =
-                emptyList<PersonGroupCrossRef>().toMutableList()
-            val personId: MutableList<Int> = emptyList<Int>().toMutableList()
 
-            GlobalScope.launch {
-                // Add Group to Database
-                db.insertGroup(
-                    Group(
-                        0,
-                        binding.etGroupName.text.toString(),
-                        binding.rvPersonsInGroup.size
-                    )
+        val db = Database.getInstance(view.context).dao
+        val persons =
+            (binding.rvPersonsInGroup.adapter as EditCardListPersonAdapter).getListOfPersons()
+        val personGroupCrossRef: MutableList<PersonGroupCrossRef> =
+            emptyList<PersonGroupCrossRef>().toMutableList()
+        val personId: MutableList<Int> = emptyList<Int>().toMutableList()
+
+        GlobalScope.launch {
+            // Add Group to Database
+            db.insertGroup(
+                Group(
+                    0,
+                    binding.etGroupName.text.toString(),
+                    binding.rvPersonsInGroup.size
                 )
+            )
 
-                // Add Persons to Database
-                persons.forEach {
-                    if (db.isInTablePersons(it.person_name) == 0) {
-                        db.insertPerson(it)
-                    }
-                    personId += db.getPerson(it.person_name).person_id
+            // Add Persons to Database
+            persons.forEach {
+                if (db.isInTablePersons(it.person_name) == 0) {
+                    db.insertPerson(it)
                 }
-
-                //Add Person to Group
-                personId.forEach {
-                    personGroupCrossRef += PersonGroupCrossRef(it, db.getGroups().last().group_id)
-                }
-                personGroupCrossRef.forEach { db.insertPersonGroupCrossRef(it) }
+                personId += db.getPersonByName(it.person_name).person_id
             }
+
+            //Add Person to Group
+            personId.forEach {
+                personGroupCrossRef += PersonGroupCrossRef(it, db.getGroups().last().group_id)
+            }
+            personGroupCrossRef.forEach { db.insertPersonGroupCrossRef(it) }
         }
     }
 
     private fun editGroup(view: View) {
-        if (!binding.rvPersonsInGroup.isEmpty() && binding.etGroupName.text.isNotBlank()) {
-            val db = Database.getInstance(view.context).dao
-            val persons =
-                (binding.rvPersonsInGroup.adapter as EditCardListPersonAdapter).getListOfPersons()
-            val personGroupCrossRef: MutableList<PersonGroupCrossRef> =
-                emptyList<PersonGroupCrossRef>().toMutableList()
-            val personId: MutableList<Int> = emptyList<Int>().toMutableList()
+        val db = Database.getInstance(view.context).dao
+        val newPersons =
+            (binding.rvPersonsInGroup.adapter as EditCardListPersonAdapter).getListOfPersons().toMutableList()
+        val newGroup = Group(
+            0,
+            binding.etGroupName.text.toString(),
+            binding.rvPersonsInGroup.size
+        )
 
-            lifecycleScope.launch {
-                // Add Group to Database
-                db.insertGroup(
-                    Group(
-                        0,
-                        binding.etGroupName.text.toString(),
-                        binding.rvPersonsInGroup.size
-                    )
-                )
+        runBlocking {
+            val currentGroup = db.getGroups()[args.groupIndex - 1]
+            var currentPersons = db.getPersonsOfGroup(currentGroup.group_id).first().persons.toMutableList()
+            var personId: Int
 
-                // Add Persons to Database
-                persons.forEach {
-                    if (db.isInTablePersons(it.person_name) == 0) {
-                        db.insertPerson(it)
+            val bool = CompareLists().compareAllPersons(currentPersons, newPersons)
+            if (!bool || (currentGroup.groupName != newGroup.groupName)) {
+                // edit groupInfo
+                db.updateGroup(currentGroup.group_id, newGroup.groupName, newGroup.memberCount)
+
+                // add new Persons to Group and look if this person already exists in the Database
+                newPersons.forEach {
+                    if(!db.personsContain(it.person_name)) { // completely new
+                        db.insertPerson(Person(0, it.person_name))
+                        personId = db.getPersonByName(it.person_name).person_id
+                        db.insertPersonGroupCrossRef(PersonGroupCrossRef(personId, currentGroup.group_id))
+                    } else if (!db.groupContainsPerson(it.person_name)) { // person already exists in the database
+                        personId = db.getPersonByName(it.person_name).person_id
+                        db.insertPersonGroupCrossRef(PersonGroupCrossRef(personId, currentGroup.group_id))
                     }
-                    personId += db.getPerson(it.person_name).person_id
+                    currentPersons = CompareLists().deletePersonInList(currentPersons, it.person_name)
                 }
-
-                //Add Person to Group
-                personId.forEach {
-                    personGroupCrossRef += PersonGroupCrossRef(it, db.getGroups().last().group_id)
+                // delete remaining persons in currentPersons
+                currentPersons.forEach {
+                    db.deletePersonInGroup(it.person_id, currentGroup.group_id)
                 }
-                personGroupCrossRef.forEach { db.insertPersonGroupCrossRef(it) }
-
-                // Jump back to previous fragment
-                Navigation.findNavController(view).popBackStack()
             }
         }
     }

@@ -190,7 +190,7 @@ class EditCardFragment : Fragment() {
     private fun deleteGroup(view: View) {
         val db = Database.getInstance(view.context).dao
 
-        GlobalScope.launch {
+        runBlocking {
             val groupId = db.getGroups()[args.groupIndex - 1].group_id
             db.deleteGroup(groupId)
             db.deletePersonGroupCrossRef(groupId)

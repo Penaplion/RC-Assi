@@ -1,6 +1,10 @@
 package adapters
 
+import activities.GroupActivity
+import activities.GroupMenuActivity
 import activities.fragments.GroupFragmentDirections
+import activities.fragments.GroupMenuFragment
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,6 +35,18 @@ class GroupAdapter(private val groupList: List<GroupItem>) : RecyclerView.Adapte
                 action.groupId = (position + 1)
                 Navigation.findNavController(holder.itemView).navigate(action)
             }
+
+            binding.cvGroupCard.setOnClickListener{
+               val intent = Intent(holder.itemView.context.applicationContext, GroupMenuActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                holder.itemView.context.applicationContext.startActivity(intent);
+
+
+
+            }
+
+
+
         }
     }
 
@@ -40,3 +56,5 @@ class GroupAdapter(private val groupList: List<GroupItem>) : RecyclerView.Adapte
         val binding = FragmentGroupItemBinding.bind(itemView)
     }
 }
+
+

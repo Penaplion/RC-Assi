@@ -32,7 +32,7 @@ class GroupAdapter(private val groupList: List<GroupItem>) :
             // Navigate to another Fragment
             binding.ibtnEdit.setOnClickListener {
                 val action = GroupFragmentDirections.actionGroupFragmentToEditCardFragment()
-                action.groupId = (position + 1)
+                action.groupIndex = (position + 1)
                 Navigation.findNavController(holder.itemView).navigate(action)
             }
 

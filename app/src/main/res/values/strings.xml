@@ -3,5 +3,6 @@
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="member">Mitglieder:</string>
+    <string name="currency_symbol">€</string>
     <string name="return_to_group_menu">Zurück zur Gruppenauswahl</string>
 </resources>

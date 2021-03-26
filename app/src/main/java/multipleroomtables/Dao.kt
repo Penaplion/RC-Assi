@@ -68,6 +68,10 @@ interface Dao {
     @Query("SELECT * FROM receipt WHERE receipt_id = :receipt_id")
     suspend fun getReceiptWithArticles(receipt_id: Int): List<ReceiptWithArticles>
 
+    @Transaction
+    @Query("SELECT * FROM `group` WHERE group_id = :group_id")
+    suspend fun getGroupWithReceipts(group_id: Int): List<GroupWithReceipts>
+
     /*
         getCross-Ref
      */

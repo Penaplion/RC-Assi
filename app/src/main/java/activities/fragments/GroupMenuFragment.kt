@@ -16,36 +16,22 @@ class GroupMenuFragment : Fragment() {
     private var _binding :FragmentGroupMenuBinding? = null
     private val binding get() = _binding!!
 
-
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         _binding = FragmentGroupMenuBinding.inflate(inflater, container, false)
          val view = binding.root
-
         return view
     }
 
-
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        /*binding.btnAddCard.setOnClickListener {
-            Navigation.findNavController(view).navigate(R.id.action_groupFragment_to_editCardFragment)
-
-
-        }*/
     }
-
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
-
-
 }

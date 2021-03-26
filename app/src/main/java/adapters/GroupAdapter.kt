@@ -1,9 +1,7 @@
 package adapters
 
-import activities.GroupActivity
 import activities.GroupMenuActivity
 import activities.fragments.GroupFragmentDirections
-import activities.fragments.GroupMenuFragment
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
@@ -14,10 +12,12 @@ import com.example.rc_assi.R
 import com.example.rc_assi.databinding.FragmentGroupItemBinding
 import data.GroupItem
 
-class GroupAdapter(private val groupList: List<GroupItem>) : RecyclerView.Adapter<GroupAdapter.GroupViewHolder>() {
+class GroupAdapter(private val groupList: List<GroupItem>) :
+    RecyclerView.Adapter<GroupAdapter.GroupViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GroupViewHolder {
-        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.fragment_group_item, parent, false)
+        val itemView =
+            LayoutInflater.from(parent.context).inflate(R.layout.fragment_group_item, parent, false)
         return GroupViewHolder(
             itemView
         )
@@ -36,17 +36,14 @@ class GroupAdapter(private val groupList: List<GroupItem>) : RecyclerView.Adapte
                 Navigation.findNavController(holder.itemView).navigate(action)
             }
 
-            binding.cvGroupCard.setOnClickListener{
-               val intent = Intent(holder.itemView.context.applicationContext, GroupMenuActivity::class.java)
+            binding.cvGroupCard.setOnClickListener {
+                val intent = Intent(
+                    holder.itemView.context.applicationContext,
+                    GroupMenuActivity::class.java
+                )
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                holder.itemView.context.applicationContext.startActivity(intent);
-
-
-
+                holder.itemView.context.applicationContext.startActivity(intent)
             }
-
-
-
         }
     }
 
@@ -56,5 +53,3 @@ class GroupAdapter(private val groupList: List<GroupItem>) : RecyclerView.Adapte
         val binding = FragmentGroupItemBinding.bind(itemView)
     }
 }
-
-

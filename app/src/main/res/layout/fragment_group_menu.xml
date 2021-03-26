@@ -6,27 +6,31 @@
     tools:context="activities.fragments.GroupMenuFragment">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardView4"
+        android:id="@+id/cvBalance"
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         app:cardCornerRadius="6dp"
-        app:layout_constraintEnd_toStartOf="@+id/cardView3"
+        app:layout_constraintEnd_toStartOf="@+id/cvPurchases"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView2">
+        app:layout_constraintTop_toBottomOf="@+id/cvGraph">
 
         <ImageView
-            android:id="@+id/imageView5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/_0194b7f2ca68a3d80dc41a6e20ae1de" />
+            android:id="@+id/ivBalance"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/black_border"
+            android:padding="10dp"
+
+
+            android:src="@drawable/balance_sheet" />
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardView3"
+        android:id="@+id/cvPurchases"
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:layout_marginStart="8dp"
@@ -35,61 +39,66 @@
         app:cardCornerRadius="6dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/cardView4"
-        app:layout_constraintTop_toBottomOf="@+id/cardView">
+        app:layout_constraintStart_toEndOf="@+id/cvBalance"
+        app:layout_constraintTop_toBottomOf="@+id/cvCamera">
 
         <ImageView
-            android:id="@+id/imageView6"
+            android:id="@+id/ivPurchases"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/_47050_200" />
+            android:background="@drawable/black_border"
+            android:src="@drawable/purchases" />
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardView2"
+        android:id="@+id/cvGraph"
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         app:cardCornerRadius="6dp"
-        app:layout_constraintBottom_toTopOf="@+id/cardView4"
-        app:layout_constraintEnd_toStartOf="@+id/cardView"
+        app:layout_constraintBottom_toTopOf="@+id/cvBalance"
+        app:layout_constraintEnd_toStartOf="@+id/cvCamera"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/imageView7"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/graph_318_10306" />
+            android:id="@+id/ivGraph"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/black_border"
+            android:padding="10dp"
+            android:src="@drawable/graph" />
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardView"
+        android:id="@+id/cvCamera"
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         app:cardCornerRadius="6dp"
-        app:layout_constraintBottom_toTopOf="@+id/cardView3"
+        app:layout_constraintBottom_toTopOf="@+id/cvPurchases"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/cardView2"
+        app:layout_constraintStart_toEndOf="@+id/cvGraph"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/imageView8"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/index" />
+            android:id="@+id/ivCamera"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="10dp"
+            android:background="@drawable/black_border"
+            android:src="@drawable/camera" />
     </androidx.cardview.widget.CardView>
 
     <Button
 
-        android:id="@+id/button2"
+        android:id="@+id/btnBackToGroup"
         android:layout_width="335dp"
         android:layout_height="56dp"
         android:layout_marginBottom="8dp"

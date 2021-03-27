@@ -39,7 +39,8 @@ class GroupFragment : Fragment() {
                 groupList += GroupItem(
                     R.drawable.ic_launcher_background,
                     it.groupName,
-                    "$stringMember $amount"
+                    "$stringMember $amount",
+                    it.group_id
                 )
             }
         }

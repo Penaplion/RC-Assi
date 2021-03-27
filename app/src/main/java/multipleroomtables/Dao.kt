@@ -99,8 +99,16 @@ interface Dao {
     suspend fun getGroups(): List<Group>
 
     @Transaction
+    @Query("SELECT * FROM receipt")
+    suspend fun getReceipts(): List<Receipt>
+
+    @Transaction
     @Query("SELECT * FROM person")
     suspend fun getPersons(): List<Person>
+
+    @Transaction
+    @Query("SELECT * FROM 'group' WHERE group_id=:group_id")
+    suspend fun getGroupByID(group_id: Int): Group
 
     /*
         isTableEmpty & getSingleEntries & tableContains

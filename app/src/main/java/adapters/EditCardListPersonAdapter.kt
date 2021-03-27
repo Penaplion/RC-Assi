@@ -35,7 +35,6 @@ class EditCardListPersonAdapter(private val personList: ArrayList<PersonItem>) :
 
     class EditCardListPersonViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val binding = FragmentEditCardListPersonItemBinding.bind(itemView)
-
     }
 
     private fun removeItem(position: Int) {
@@ -43,16 +42,15 @@ class EditCardListPersonAdapter(private val personList: ArrayList<PersonItem>) :
         notifyDataSetChanged()
     }
 
-    fun addItem(nameOfNewPerson: String) {
-        val personToAdd = PersonItem(nameOfNewPerson)
-        personList.add(personToAdd)
+    fun addItem(person: PersonItem) {
+        personList.add(person)
         notifyDataSetChanged()
     }
 
     fun getListOfPersons(): List<Person> {
         val list: MutableList<Person> = emptyList<Person>().toMutableList()
         personList.forEach() {
-            list += Person(0, it.name)
+            list += Person(it.person_id, it.name)
         }
         return list
     }

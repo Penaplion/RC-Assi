@@ -25,7 +25,7 @@ class ReceiptWithArticlesAdapter(private val articleList: List<ArticleItem>) :
     ) {
         val currentItem = articleList[position]
         with(holder) {
-            binding.tvArticle.text = currentItem.article
+            binding.tvArticle.text = currentItem.name
             binding.tvAssignments.text = currentItem.assignment
             binding.tvPrice.text = currentItem.price.toString() + R.string.currency_symbol
         }

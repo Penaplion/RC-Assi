@@ -32,7 +32,7 @@ class GroupAdapter(private val groupList: List<GroupItem>) :
             // Navigate to another Fragment
             binding.ibtnEdit.setOnClickListener {
                 val action = GroupFragmentDirections.actionGroupFragmentToEditCardFragment()
-                action.groupIndex = (position + 1)
+                action.groupID = currentItem.group_id
                 Navigation.findNavController(holder.itemView).navigate(action)
             }
 
@@ -42,6 +42,7 @@ class GroupAdapter(private val groupList: List<GroupItem>) :
                     GroupMenuActivity::class.java
                 )
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                intent.putExtra("GROUP_ID", currentItem.group_id)
                 holder.itemView.context.applicationContext.startActivity(intent)
             }
         }

@@ -1,8 +1,10 @@
 package adapters
 
+import activities.fragments.ShoppingHistoryFragmentDirections
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rc_assi.R
 import com.example.rc_assi.databinding.FragmentShoppingHistoryItemBinding
@@ -23,10 +25,12 @@ class ShoppingHistoryAdapter(private val receiptList: List<ReceiptItem>) :
         val currentItem = receiptList[position]
         with(holder) {
             binding.tvOwner.text = currentItem.owner
-            binding.tvShop.text = currentItem.shop
-            binding.tvTimestamp.text = currentItem.shop
+            binding.tvShop.text = currentItem.market
+            binding.tvTimestamp.text = currentItem.date.toString()
             binding.cvReceipt.setOnClickListener {
-                TODO("navigate to article list")
+                val action = ShoppingHistoryFragmentDirections.actionShoppingHistoryFragmentToReceiptWithArticlesFragment()
+                action.receiptID = currentItem.receipt_id
+                Navigation.findNavController(holder.itemView).navigate(action)
             }
         }
     }

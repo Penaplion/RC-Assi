@@ -23,10 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/black_border"
-            android:padding="10dp"
-
-
-            android:src="@drawable/balance_sheet" />
+            android:src="@drawable/purchase" />
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
@@ -43,11 +40,11 @@
         app:layout_constraintTop_toBottomOf="@+id/cvCamera">
 
         <ImageView
-            android:id="@+id/ivPurchases"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/ivPurchase"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:background="@drawable/black_border"
-            android:src="@drawable/purchases" />
+            android:src="@drawable/balance" />
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
@@ -69,8 +66,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/black_border"
-            android:padding="10dp"
-            android:src="@drawable/graph" />
+            android:src="@drawable/graphs" />
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
@@ -91,9 +87,8 @@
             android:id="@+id/ivCamera"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="10dp"
             android:background="@drawable/black_border"
-            android:src="@drawable/camera" />
+            android:src="@drawable/camera_photo" />
     </androidx.cardview.widget.CardView>
 
     <Button

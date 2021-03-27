@@ -16,7 +16,6 @@ class GroupMenuFragment : Fragment() {
 
     private var _binding :FragmentGroupMenuBinding? = null
     private val binding get() = _binding!!
-    private val groupID = activity?.intent?.getIntExtra("GROUP_ID", 0)!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,6 +30,9 @@ class GroupMenuFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val groupID = activity?.intent?.getIntExtra("GROUP_ID", 0)!!
+
         binding.cvPurchases.setOnClickListener {
             val action = GroupMenuFragmentDirections.actionGroupMenuFragmentToShoppingHistoryFragment()
             action.groupID = groupID

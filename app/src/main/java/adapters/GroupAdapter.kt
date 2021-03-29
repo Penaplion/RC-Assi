@@ -10,10 +10,12 @@ import com.example.rc_assi.R
 import com.example.rc_assi.databinding.FragmentGroupItemBinding
 import data.GroupItem
 
-class GroupAdapter(private val groupList: List<GroupItem>) : RecyclerView.Adapter<GroupAdapter.GroupViewHolder>() {
+class GroupAdapter(private val groupList: List<GroupItem>) :
+    RecyclerView.Adapter<GroupAdapter.GroupViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GroupViewHolder {
-        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.fragment_group_item, parent, false)
+        val itemView =
+            LayoutInflater.from(parent.context).inflate(R.layout.fragment_group_item, parent, false)
         return GroupViewHolder(
             itemView
         )
@@ -28,7 +30,7 @@ class GroupAdapter(private val groupList: List<GroupItem>) : RecyclerView.Adapte
             // Navigate to another Fragment
             binding.ibtnEdit.setOnClickListener {
                 val action = GroupFragmentDirections.actionGroupFragmentToEditCardFragment()
-                action.groupId = (position + 1)
+                action.groupIndex = (position + 1)
                 Navigation.findNavController(holder.itemView).navigate(action)
             }
         }

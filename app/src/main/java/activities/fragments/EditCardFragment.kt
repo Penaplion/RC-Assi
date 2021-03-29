@@ -115,10 +115,8 @@ class EditCardFragment : Fragment() {
                 }
             }
         }
-
         binding.rvPersonsInGroup.adapter = EditCardListPersonAdapter(list)
         binding.rvPersonsInGroup.layoutManager = LinearLayoutManager(view.context)
-
         return list
     }
 

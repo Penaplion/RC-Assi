@@ -24,6 +24,7 @@ import multipleroomtables.entities.Group
 import multipleroomtables.entities.Person
 import multipleroomtables.entities.relations.PersonGroupCrossRef
 import utils.CompareLists
+import java.lang.NullPointerException
 
 class EditCardFragment : Fragment() {
 
@@ -38,7 +39,7 @@ class EditCardFragment : Fragment() {
         _binding = FragmentEditCardBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        groupInfo(args.groupIndex, view)
+        groupInfo(view)
 
         return view
     }
@@ -46,6 +47,7 @@ class EditCardFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val db = Database.getInstance(view.context).dao
         val imm: InputMethodManager =
             view.context.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
 
@@ -57,7 +59,7 @@ class EditCardFragment : Fragment() {
         binding.btnFinish.setOnClickListener {
             imm.hideSoftInputFromWindow(view.windowToken, 0)
             if (!binding.rvPersonsInGroup.isEmpty() && binding.etGroupName.text.isNotBlank()) {
-                if (args.groupIndex == 0) {
+                if (args.groupID == 0) {
                     addGroup(view)
                 } else {
                     editGroup(view)
@@ -75,7 +77,17 @@ class EditCardFragment : Fragment() {
 
         binding.btnAdd.setOnClickListener {
             if (binding.actvName.text.isNotBlank()) {
-                (binding.rvPersonsInGroup.adapter as EditCardListPersonAdapter).addItem(binding.actvName.text.toString())
+                val person: Person
+
+                runBlocking {
+                    person = db.getPersonByName(binding.actvName.text.toString())
+                }
+                try {
+                    (binding.rvPersonsInGroup.adapter as EditCardListPersonAdapter).addItem(PersonItem(person.person_id, binding.actvName.text.toString()))
+                } catch (e: NullPointerException) {
+                    (binding.rvPersonsInGroup.adapter as EditCardListPersonAdapter).addItem(PersonItem(0, binding.actvName.text.toString()))
+                }
+
                 binding.actvName.text.clear()
             }
         }
@@ -87,27 +99,24 @@ class EditCardFragment : Fragment() {
     }
 
     // show group information when group already exists
-    private fun groupInfo(groupIndex: Int, view: View): ArrayList<PersonItem> {
+    private fun groupInfo(view: View): ArrayList<PersonItem> {
         val list = ArrayList<PersonItem>()
-        if (groupIndex == 0) {
+        if (args.groupID == 0) {
             binding.ibtnDelete.isEnabled = false
         } else {
             val db = Database.getInstance(view.context).dao
             runBlocking {
-                val groupId = db.getGroups()[groupIndex - 1].group_id
-                db.getPersonsOfGroup(groupId).forEach {
+                db.getPersonsOfGroup(args.groupID).forEach {
                     binding.etGroupName.text =
                         Editable.Factory.getInstance().newEditable(it.group.groupName)
                     it.persons.forEach { it2 ->
-                        list += PersonItem(it2.person_name)
+                        list += PersonItem(it2.person_id, it2.person_name)
                     }
                 }
             }
         }
-
         binding.rvPersonsInGroup.adapter = EditCardListPersonAdapter(list)
         binding.rvPersonsInGroup.layoutManager = LinearLayoutManager(view.context)
-
         return list
     }
 
@@ -133,7 +142,7 @@ class EditCardFragment : Fragment() {
 
             // Add Persons to Database
             persons.forEach {
-                if (db.isInTablePersons(it.person_name) == 0) {
+                if (it.person_id == 0) {
                     db.insertPerson(it)
                 }
                 personId += db.getPersonByName(it.person_name).person_id
@@ -158,7 +167,7 @@ class EditCardFragment : Fragment() {
         )
 
         runBlocking {
-            val currentGroup = db.getGroups()[args.groupIndex - 1]
+            val currentGroup = db.getGroupByID(args.groupID)
             var currentPersons = db.getPersonsOfGroup(currentGroup.group_id).first().persons.toMutableList()
             var personId: Int
 
@@ -191,9 +200,8 @@ class EditCardFragment : Fragment() {
         val db = Database.getInstance(view.context).dao
 
         runBlocking {
-            val groupId = db.getGroups()[args.groupIndex - 1].group_id
-            db.deleteGroup(groupId)
-            db.deletePersonGroupCrossRef(groupId)
+            db.deleteGroup(args.groupID)
+            db.deletePersonGroupCrossRef(args.groupID)
         }
     }
 }

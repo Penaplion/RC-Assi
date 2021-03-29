@@ -14,7 +14,7 @@
             android:id="@+id/action_editCardFragment_to_groupFragment"
             app:destination="@id/groupFragment" />
         <argument
-            android:name="groupIndex"
+            android:name="groupID"
             app:argType="integer"
             android:defaultValue="0" />
     </fragment>

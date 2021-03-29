@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_group_menu"
+    app:startDestination="@id/groupMenuFragment">
+
+    <fragment
+        android:id="@+id/groupMenuFragment"
+        android:name="activities.fragments.GroupMenuFragment"
+        android:label="fragment_group_menu"
+        tools:layout="@layout/fragment_group_menu" >
+        <action
+            android:id="@+id/action_groupMenuFragment_to_shoppingHistoryFragment"
+            app:destination="@id/shoppingHistoryFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/shoppingHistoryFragment"
+        android:name="activities.fragments.ShoppingHistoryFragment"
+        android:label="fragment_shopping_history"
+        tools:layout="@layout/fragment_shopping_history" >
+        <action
+            android:id="@+id/action_shoppingHistoryFragment_to_groupMenuFragment"
+            app:destination="@id/groupMenuFragment" />
+        <action
+            android:id="@+id/action_shoppingHistoryFragment_to_receiptWithArticlesFragment"
+            app:destination="@id/receiptWithArticlesFragment" />
+        <argument
+            android:name="groupID"
+            app:argType="integer"
+            android:defaultValue="0" />
+    </fragment>
+    <fragment
+        android:id="@+id/receiptWithArticlesFragment"
+        android:name="activities.fragments.ReceiptWithArticlesFragment"
+        android:label="fragment_receipt_with_articles"
+        tools:layout="@layout/fragment_receipt_with_articles" >
+        <action
+            android:id="@+id/action_receiptWithArticlesFragment_to_shoppingHistoryFragment"
+            app:destination="@id/shoppingHistoryFragment" />
+        <argument
+            android:name="receiptID"
+            app:argType="integer"
+            android:defaultValue="0" />
+    </fragment>
+</navigation>

@@ -39,7 +39,7 @@ class EditCardFragment : Fragment() {
         _binding = FragmentEditCardBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        groupInfo(args.groupID, view)
+        groupInfo(view)
 
         return view
     }
@@ -99,15 +99,14 @@ class EditCardFragment : Fragment() {
     }
 
     // show group information when group already exists
-    private fun groupInfo(groupIndex: Int, view: View): ArrayList<PersonItem> {
+    private fun groupInfo(view: View): ArrayList<PersonItem> {
         val list = ArrayList<PersonItem>()
-        if (groupIndex == 0) {
+        if (args.groupID == 0) {
             binding.ibtnDelete.isEnabled = false
         } else {
             val db = Database.getInstance(view.context).dao
             runBlocking {
-                val groupId = db.getGroups()[groupIndex - 1].group_id
-                db.getPersonsOfGroup(groupId).forEach {
+                db.getPersonsOfGroup(args.groupID).forEach {
                     binding.etGroupName.text =
                         Editable.Factory.getInstance().newEditable(it.group.groupName)
                     it.persons.forEach { it2 ->

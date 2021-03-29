@@ -7,7 +7,7 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cvBalance"
-        android:layout_width="200dp"
+        android:layout_width="0dp"
         android:layout_height="200dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
@@ -28,7 +28,7 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cvPurchases"
-        android:layout_width="200dp"
+        android:layout_width="0dp"
         android:layout_height="200dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
@@ -49,7 +49,7 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cvGraph"
-        android:layout_width="200dp"
+        android:layout_width="0dp"
         android:layout_height="200dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
@@ -71,7 +71,7 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cvCamera"
-        android:layout_width="200dp"
+        android:layout_width="0dp"
         android:layout_height="200dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"

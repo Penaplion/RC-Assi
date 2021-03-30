@@ -44,12 +44,13 @@ class GroupFragment : Fragment() {
                 )
             }
         }
+        /* TODO("DELETE LATER")
         binding.rvGroupCard.adapter =
             GroupAdapter(groupList)
         binding.rvGroupCard.layoutManager = GridLayoutManager(
             view.context, 2,
             RecyclerView.VERTICAL, false
-        )
+        )*/
 
 
         binding.rvGroupCard.adapter =

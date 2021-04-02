@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -130,7 +131,7 @@ class CameraFragment : Fragment() {
     }
 
     private fun getOutputDirectory(): File? {
-        val mediaDir = context?.externalMediaDirs?.firstOrNull()?.let {
+        val mediaDir = context?.getExternalFilesDirs(Environment.DIRECTORY_PICTURES)?.firstOrNull()?.let {
             File(it, resources.getString(R.string.app_name)).apply { mkdirs() } }
         return if (mediaDir != null && mediaDir.exists())
             mediaDir else context?.filesDir

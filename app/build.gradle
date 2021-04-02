@@ -5,11 +5,10 @@ plugins {
 }
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion 30
     buildToolsVersion "30.0.3"
     
     apply plugin: "androidx.navigation.safeargs"
-    apply plugin: 'kotlin-android-extensions'
 
     buildFeatures {
         viewBinding = true
@@ -18,7 +17,7 @@ android {
     defaultConfig {
         applicationId "com.example.rc_assi"
         minSdkVersion 21
-        targetSdkVersion 30
+        targetSdkVersion 26
         versionCode 1
         versionName "1.0"
 

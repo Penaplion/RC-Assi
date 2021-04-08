@@ -5,4 +5,16 @@
     <string name="member">Mitglieder:</string>
     <string name="currency_symbol">€</string>
     <string name="return_to_group_menu">Zurück zur Gruppenauswahl</string>
+    <string name="next">Weiter</string>
+    <string name="market">Markt</string>
+    <string name="total_sum">Gesamtbetrag</string>
+    <string name="date">Datum</string>
+    <string name="add_receipt">Hinzufügen einer neuen Quittung</string>
+
+    <string name="article_name">Artikel Name</string>
+    <string name="amount">Menge</string>
+    <string name="price">Preis</string>
+
+    <string name="add">Hinzufügen</string>
+    <string name="add_and_clear">Hinzufügen und leeren</string>
 </resources>

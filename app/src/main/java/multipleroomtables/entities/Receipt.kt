@@ -13,5 +13,6 @@ data class Receipt (
     val date: Long,
     val market: String,
     val state: Boolean,
+    val url: String,
     val total: Float
 )

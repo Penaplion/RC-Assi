@@ -50,9 +50,5 @@
         android:id="@+id/cameraFragment"
         android:name="activities.fragments.CameraFragment"
         android:label="fragment_camera"
-        tools:layout="@layout/fragment_camera" >
-        <action
-            android:id="@+id/action_cameraFragment_to_groupMenuFragment"
-            app:destination="@id/groupMenuFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_camera" />
 </navigation>

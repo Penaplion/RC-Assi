@@ -2,6 +2,7 @@ package activities.fragments
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.util.Log
@@ -17,7 +18,6 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.example.rc_assi.R
 import com.example.rc_assi.databinding.FragmentCameraBinding
-import utils.ReceiptAnalyser
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
@@ -31,7 +31,6 @@ class CameraFragment : Fragment() {
     private lateinit var outputDirectory: File
     private lateinit var cameraExecutor: ExecutorService
     private var imageCapturedSuccessfully: Boolean = false
-    private var imageAnalysis: ImageAnalysis? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -76,7 +75,6 @@ class CameraFragment : Fragment() {
 
         // Set up image capture listener, which is triggered after photo has
         // been taken
-        /*
         imageCapture.takePicture(
             outputOptions, ContextCompat.getMainExecutor(context), object : ImageCapture.OnImageSavedCallback {
                 override fun onError(exc: ImageCaptureException) {
@@ -91,23 +89,7 @@ class CameraFragment : Fragment() {
                     imageCapturedSuccessfully = true
                 }
             })
-         */
-        imageCapture.takePicture(
-            ContextCompat.getMainExecutor(context),
-            object : ImageCapture.OnImageCapturedCallback() {
-                override fun onError(exc: ImageCaptureException) {
-                    Log.e(TAG, "Photo capture failed: ${exc.message}", exc)
-                }
-
-                override fun onCaptureSuccess(image: ImageProxy) {
-                    // start text recognition
-                    val receiptAnalyser = ReceiptAnalyser()
-                    receiptAnalyser.analyze(image)
-                    image.close()
-                }
-            })
     }
-
 
     private fun startCamera() {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(requireContext())
@@ -123,16 +105,10 @@ class CameraFragment : Fragment() {
                     it.setSurfaceProvider(binding.pvCamera.surfaceProvider)
                 }
 
-            imageCapture = ImageCapture.Builder().build()
-
-
-            imageAnalysis = ImageAnalysis.Builder()
-                .setTargetResolution(Size(1280, 720))
-                .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
+            imageCapture = ImageCapture.Builder()
+                .setTargetResolution(Size(1920, 1080))
+                .setCaptureMode(ImageCapture.CAPTURE_MODE_MAXIMIZE_QUALITY)
                 .build()
-
-            imageAnalysis!!.setAnalyzer(ContextCompat.getMainExecutor(context), ReceiptAnalyser())
-
 
             // Select back camera as a default
             val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
@@ -143,7 +119,7 @@ class CameraFragment : Fragment() {
 
                 // Bind use cases to camera
                 cameraProvider.bindToLifecycle(
-                    this, cameraSelector, preview, imageCapture/*, imageAnalysis*/
+                    this, cameraSelector, preview, imageCapture
                 )
 
             } catch (exc: Exception) {

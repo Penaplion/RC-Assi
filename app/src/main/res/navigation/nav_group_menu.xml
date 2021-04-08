@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_groupMenuFragment_to_shoppingHistoryFragment"
             app:destination="@id/shoppingHistoryFragment" />
+        <action
+            android:id="@+id/action_groupMenuFragment_to_cameraFragment"
+            app:destination="@id/cameraFragment" />
     </fragment>
     <fragment
         android:id="@+id/shoppingHistoryFragment"
@@ -43,4 +46,9 @@
             app:argType="integer"
             android:defaultValue="0" />
     </fragment>
+    <fragment
+        android:id="@+id/cameraFragment"
+        android:name="activities.fragments.CameraFragment"
+        android:label="fragment_camera"
+        tools:layout="@layout/fragment_camera" />
 </navigation>

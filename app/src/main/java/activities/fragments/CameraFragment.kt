@@ -28,15 +28,22 @@ class CameraFragment : Fragment() {
     private var _binding: FragmentCameraBinding? = null
     private val binding get() = _binding!!
     private var imageCapture: ImageCapture? = null
+    private var permissionsGranted: Boolean? = false
     private lateinit var outputDirectory: File
     private lateinit var cameraExecutor: ExecutorService
-    private var imageCapturedSuccessfully: Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentCameraBinding.inflate(inflater, container, false)
+
+        if (!allPermissionsGranted()) {
+            ActivityCompat.requestPermissions(
+                requireActivity(), REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS
+            )
+        }
+
         // Inflate the layout for this fragment
         return binding.root
     }
@@ -44,14 +51,7 @@ class CameraFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Request camera permissions
-        if (allPermissionsGranted()) {
-            startCamera()
-        } else {
-            ActivityCompat.requestPermissions(
-                requireActivity(), REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS
-            )
-        }
+        startCamera()
 
         // Set up the listener for take photo button
         binding.btnCapturePhoto.setOnClickListener { takePhoto() }
@@ -76,7 +76,9 @@ class CameraFragment : Fragment() {
         // Set up image capture listener, which is triggered after photo has
         // been taken
         imageCapture.takePicture(
-            outputOptions, ContextCompat.getMainExecutor(context), object : ImageCapture.OnImageSavedCallback {
+            outputOptions,
+            ContextCompat.getMainExecutor(context),
+            object : ImageCapture.OnImageSavedCallback {
                 override fun onError(exc: ImageCaptureException) {
                     Log.e(TAG, "Photo capture failed: ${exc.message}", exc)
                 }
@@ -86,7 +88,6 @@ class CameraFragment : Fragment() {
                     val msg = "Photo capture succeeded: $savedUri"
                     Toast.makeText(activity, msg, Toast.LENGTH_SHORT).show()
                     Log.d(TAG, msg)
-                    imageCapturedSuccessfully = true
                 }
             })
     }

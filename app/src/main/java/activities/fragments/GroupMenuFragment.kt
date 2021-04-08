@@ -36,7 +36,7 @@ class GroupMenuFragment : Fragment() {
             Navigation.findNavController(view).navigate(action)
         }
         binding.cvCamera.setOnClickListener {
-           // Navigation.findNavController(view).navigate(GroupMenuFragmentDirections.actionGroupMenuFragmentToCameraFragment())
+           //Navigation.findNavController(view).navigate(GroupMenuFragmentDirections.actionGroupMenuFragmentToCameraFragment())
         }
         binding.btnBackToGroup.setOnClickListener {
             activity?.finish()

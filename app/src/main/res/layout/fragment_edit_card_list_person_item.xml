@@ -10,7 +10,7 @@
         android:id="@+id/tvName"
         android:layout_width="270dp"
         android:layout_height="wrap_content"
-        android:text="FirstName Surname"
+        android:text="@string/first_name_surname"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

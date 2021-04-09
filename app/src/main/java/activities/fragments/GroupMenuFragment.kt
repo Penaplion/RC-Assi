@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.Navigation
+import com.example.rc_assi.R
 import com.example.rc_assi.databinding.FragmentGroupMenuBinding
 
 
@@ -20,9 +21,8 @@ class GroupMenuFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         _binding = FragmentGroupMenuBinding.inflate(inflater, container, false)
-        val view = binding.root
 
-        return view
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -36,7 +36,7 @@ class GroupMenuFragment : Fragment() {
             Navigation.findNavController(view).navigate(action)
         }
         binding.cvCamera.setOnClickListener {
-           //Navigation.findNavController(view).navigate(GroupMenuFragmentDirections.actionGroupMenuFragmentToCameraFragment())
+           Navigation.findNavController(view).navigate(R.id.action_groupMenuFragment_to_addReceiptFragment)
         }
         binding.btnBackToGroup.setOnClickListener {
             activity?.finish()

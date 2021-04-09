@@ -58,7 +58,7 @@ class GroupFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.btnAddCard.setOnClickListener {
+        binding.ibtnAddCard.setOnClickListener {
             Navigation.findNavController(view)
                 .navigate(R.id.action_groupFragment_to_editCardFragment)
         }

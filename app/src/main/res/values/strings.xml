@@ -1,20 +1,39 @@
 <resources>
+    <!-- General-->
+    <string name="add">add</string>
+    <string name="add_and_clear">add and clear</string>
     <string name="app_name">RC-Assi</string>
+    <string name="back">back</string>
+    <string name="save">Save</string>
+    <string name="cancel">cancel</string>
 
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="member">Mitglieder:</string>
+    <!-- EditGroup-->
+    <string name="group_name">group name:</string>
+    <string name="member">members:</string>
+    <string name="first_name_surname">first name and surname</string>
+    <string name="return_to_group_menu">back to group selection</string>
+
+    <!-- Receipt-->
+    <string name="market">market</string>
+    <string name="total_sum">total</string>
+    <string name="date">date</string>
+    <string name="add_receipt">Adding a new receipt</string>
+    <string name="distribute_articles">go to distribution</string>
+    <string name="status">date</string>
+    <string name="payer">payer</string>
+
+    <!-- Article-->
+    <string name="article_name">article name</string>
+    <string name="amount">amount</string>
+    <string name="price">price</string>
     <string name="currency_symbol">€</string>
-    <string name="return_to_group_menu">Zurück zur Gruppenauswahl</string>
-    <string name="next">Weiter</string>
-    <string name="market">Markt</string>
-    <string name="total_sum">Gesamtbetrag</string>
-    <string name="date">Datum</string>
-    <string name="add_receipt">Hinzufügen einer neuen Quittung</string>
+    <string name="assigned">€</string>
 
-    <string name="article_name">Artikel Name</string>
-    <string name="amount">Menge</string>
-    <string name="price">Preis</string>
+    <!-- Assignments-->
+    <string name="assign_articles_to_persons">assign articles to persons</string>
 
-    <string name="add">Hinzufügen</string>
-    <string name="add_and_clear">Hinzufügen und leeren</string>
+    <!-- Camera-->
+    <string name="take_photo">take photo</string>
+
+
 </resources>

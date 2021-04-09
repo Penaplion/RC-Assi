@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_groupMenuFragment_to_shoppingHistoryFragment"
             app:destination="@id/shoppingHistoryFragment" />
+        <action
+            android:id="@+id/action_groupMenuFragment_to_addReceiptFragment"
+            app:destination="@id/addReceiptFragment" />
     </fragment>
     <fragment
         android:id="@+id/shoppingHistoryFragment"
@@ -38,6 +41,47 @@
         <action
             android:id="@+id/action_receiptWithArticlesFragment_to_shoppingHistoryFragment"
             app:destination="@id/shoppingHistoryFragment" />
+        <argument
+            android:name="receiptID"
+            app:argType="integer"
+            android:defaultValue="0" />
+    </fragment>
+    <fragment
+        android:id="@+id/cameraFragment"
+        android:name="activities.fragments.CameraFragment"
+        android:label="fragment_camera"
+        tools:layout="@layout/fragment_camera" >
+        <action
+            android:id="@+id/action_cameraFragment_to_addReceiptFragment"
+            app:destination="@id/addReceiptFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addReceiptFragment"
+        android:name="activities.fragments.AddReceiptFragment"
+        android:label="fragment_add_receipt"
+        tools:layout="@layout/fragment_add_receipt" >
+        <action
+            android:id="@+id/action_addReceiptFragment_to_cameraFragment"
+            app:destination="@id/cameraFragment" />
+        <action
+            android:id="@+id/action_addReceiptFragment_to_groupMenuFragment"
+            app:destination="@id/groupMenuFragment" />
+        <action
+            android:id="@+id/action_addReceiptFragment_to_assignArticlesToPersonsFragment"
+            app:destination="@id/assignArticlesToPersonsFragment" />
+        <argument
+            android:name="url"
+            app:argType="string"
+            android:defaultValue='' />
+    </fragment>
+    <fragment
+        android:id="@+id/assignArticlesToPersonsFragment"
+        android:name="activities.fragments.AssignArticlesToPersonsFragment"
+        android:label="fragment_assign_articles_to_persons"
+        tools:layout="@layout/fragment_assign_articles_to_persons" >
+        <action
+            android:id="@+id/action_assignArticlesToPersonsFragment_to_groupMenuFragment"
+            app:destination="@id/groupMenuFragment" />
         <argument
             android:name="receiptID"
             app:argType="integer"

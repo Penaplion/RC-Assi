@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:padding="5dp"
-            android:text="Payer"
+            android:text="@string/payer"
             android:textSize="18sp" />
 
         <TextView
@@ -38,7 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:padding="5dp"
-            android:text="Status"
+            android:text="@string/status"
             android:textSize="18sp" />
 
         <TextView
@@ -47,7 +47,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:padding="5dp"
-            android:text="Total"
+            android:text="@string/total_sum"
             android:textSize="18sp" />
     </LinearLayout>
 

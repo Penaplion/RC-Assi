@@ -3,68 +3,83 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="activities.fragments.AddReceiptFragment" >
+    tools:context="activities.fragments.AddReceiptFragment">
 
     <EditText
-        android:id="@+id/editTextTextPersonName2"
+        android:id="@+id/etTotal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:ems="10"
         android:hint="@string/total_sum"
         android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/ibtnTakePhoto"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName" />
+        app:layout_constraintTop_toBottomOf="@+id/etMarket" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName"
+        android:id="@+id/etMarket"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="8dp"
         android:ems="10"
         android:hint="@string/market"
         android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+        app:layout_constraintEnd_toEndOf="@+id/etTotal"
+        app:layout_constraintStart_toStartOf="@+id/etTotal"
+        app:layout_constraintTop_toBottomOf="@+id/tvFragmentTitle" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/tvFragmentTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:text="@string/add_receipt"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
-        android:id="@+id/imageButton"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:id="@+id/ibtnTakePhoto"
+        android:layout_width="45dp"
+        android:layout_height="40dp"
         android:src="@drawable/camera_photo"
-        app:layout_constraintBottom_toTopOf="@+id/button4"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/calendarView" />
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/etTotal"
+        app:layout_constraintTop_toTopOf="@+id/etMarket" />
 
     <Button
-        android:id="@+id/button4"
+        android:id="@+id/btnGoToDist"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
-        android:text="@string/next"
+        android:layout_marginBottom="8dp"
+        android:text="@string/distribute_articles"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <CalendarView
-        android:id="@+id/calendarView"
-        android:layout_width="wrap_content"
+        android:id="@+id/cvDatePicker"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnGoToDist"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName2" />
+        app:layout_constraintTop_toBottomOf="@+id/etTotal" />
+
+    <Spinner
+        android:id="@+id/spinnerOwner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/etTotal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/etTotal" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,8 +7,8 @@ data class ReceiptItem(
 
     val date: Long,
     val market: String,
+    val url: String,
     val state: Boolean,
     val total: Float,
-
     val owner: String
 )

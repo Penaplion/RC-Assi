@@ -15,7 +15,7 @@
         tools:listitem="@layout/fragment_group_item" />
 
     <ImageButton
-        android:id="@+id/btnAddCard"
+        android:id="@+id/ibtnAddCard"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginEnd="24dp"

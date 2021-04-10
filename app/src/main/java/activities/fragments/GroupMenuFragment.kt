@@ -27,16 +27,16 @@ class GroupMenuFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         val groupID = activity?.intent?.getIntExtra("GROUP_ID", 0)!!
-
         binding.cvPurchases.setOnClickListener {
             val action = GroupMenuFragmentDirections.actionGroupMenuFragmentToShoppingHistoryFragment()
             action.groupID = groupID
             Navigation.findNavController(view).navigate(action)
         }
         binding.cvCamera.setOnClickListener {
-           Navigation.findNavController(view).navigate(R.id.action_groupMenuFragment_to_addReceiptFragment)
+            val action = GroupMenuFragmentDirections.actionGroupMenuFragmentToAddReceiptFragment()
+            action.groupId= groupID
+           Navigation.findNavController(view).navigate(action)
         }
         binding.btnBackToGroup.setOnClickListener {
             activity?.finish()

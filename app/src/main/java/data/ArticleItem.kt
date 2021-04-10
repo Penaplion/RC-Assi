@@ -5,7 +5,7 @@ data class ArticleItem (
     val receipt_id: Int,
 
     val price: Float,
-    val amount: Int,
+    val amount: Float,
     val name: String,
 
     val assignment: String

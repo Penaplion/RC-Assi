@@ -17,6 +17,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.navArgs
 import com.example.rc_assi.R
 import com.example.rc_assi.databinding.FragmentCameraBinding
 import java.io.File
@@ -31,6 +32,7 @@ class CameraFragment : Fragment() {
     private var imageCapture: ImageCapture? = null
     private lateinit var outputDirectory: File
     private lateinit var cameraExecutor: ExecutorService
+    private val args : CameraFragmentArgs by navArgs ()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -90,9 +92,11 @@ class CameraFragment : Fragment() {
                     Log.d(TAG, msg)
 
                     // navigate back to AddReceiptFragment when taken a photo
-                    val action = CameraFragmentDirections.actionCameraFragmentToAddReceiptFragment()
-                    action.url = savedUri.toString()
+                   val action =CameraFragmentDirections.actionCameraFragmentToAddReceiptFragment()
+                    action.url=savedUri.toString()
+                    action.groupId=args.groupId
                     Navigation.findNavController(requireView()).navigate(action)
+
                 }
             })
     }

@@ -54,6 +54,10 @@
         <action
             android:id="@+id/action_cameraFragment_to_addReceiptFragment"
             app:destination="@id/addReceiptFragment" />
+        <argument
+            android:name="group_id"
+            app:argType="integer"
+            android:defaultValue="0" />
     </fragment>
     <fragment
         android:id="@+id/addReceiptFragment"
@@ -72,7 +76,11 @@
         <argument
             android:name="url"
             app:argType="string"
-            android:defaultValue='' />
+            android:defaultValue="0" />
+        <argument
+            android:name="group_id"
+            app:argType="integer"
+            android:defaultValue="0" />
     </fragment>
     <fragment
         android:id="@+id/assignArticlesToPersonsFragment"

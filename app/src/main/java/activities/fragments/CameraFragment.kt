@@ -16,10 +16,12 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.navArgs
 import com.example.rc_assi.R
 import com.example.rc_assi.databinding.FragmentCameraBinding
+import viewModels.SharedGroupMenuViewModels
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
@@ -32,7 +34,7 @@ class CameraFragment : Fragment() {
     private var imageCapture: ImageCapture? = null
     private lateinit var outputDirectory: File
     private lateinit var cameraExecutor: ExecutorService
-    private val args : CameraFragmentArgs by navArgs ()
+    private val sharedViewModel: SharedGroupMenuViewModels by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -92,11 +94,8 @@ class CameraFragment : Fragment() {
                     Log.d(TAG, msg)
 
                     // navigate back to AddReceiptFragment when taken a photo
-                   val action =CameraFragmentDirections.actionCameraFragmentToAddReceiptFragment()
-                    action.url=savedUri.toString()
-                    action.groupId=args.groupId
-                    Navigation.findNavController(requireView()).navigate(action)
-
+                    sharedViewModel.setImageUrl(savedUri.toString())
+                    Navigation.findNavController(requireView()).popBackStack()
                 }
             })
     }

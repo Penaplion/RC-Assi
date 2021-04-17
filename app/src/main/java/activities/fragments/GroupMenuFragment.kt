@@ -38,7 +38,7 @@ class GroupMenuFragment : Fragment() {
                 .navigate(GroupMenuFragmentDirections.actionGroupMenuFragmentToShoppingHistoryFragment())
         }
         binding.cvCamera.setOnClickListener {
-            Navigation.findNavController(view)
+            Navigation.findNavController(requireView())
                 .navigate(GroupMenuFragmentDirections.actionGroupMenuFragmentToAddReceiptFragment())
         }
         binding.btnBackToGroup.setOnClickListener {

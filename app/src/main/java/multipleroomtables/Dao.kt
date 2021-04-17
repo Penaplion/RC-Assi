@@ -103,6 +103,10 @@ interface Dao {
     suspend fun getReceipts(): List<Receipt>
 
     @Transaction
+    @Query("SELECT * FROM article")
+    suspend fun getArticles(): List<Article>
+
+    @Transaction
     @Query("SELECT * FROM person")
     suspend fun getPersons(): List<Person>
 

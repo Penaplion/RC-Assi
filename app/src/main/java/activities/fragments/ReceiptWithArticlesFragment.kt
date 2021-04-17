@@ -30,6 +30,7 @@ class ReceiptWithArticlesFragment : Fragment() {
         _binding = FragmentReceiptWithArticlesBinding.inflate(inflater, container, false)
         val view = binding.root
 
+        receiptId = sharedViewModel.receiptId.value!!
         sharedViewModel.receiptId.observe(viewLifecycleOwner, {
             receiptId = it
         })
@@ -46,7 +47,8 @@ class ReceiptWithArticlesFragment : Fragment() {
                     it.price,
                     it.amount,
                     it.name,
-                    "unknown" // TODO("get assigned persons")
+                    it.unit,
+                    "unknown" // TODO("missing")
                 )
             }
         }

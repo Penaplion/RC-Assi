@@ -11,6 +11,9 @@ import com.example.rc_assi.R
 import com.example.rc_assi.databinding.FragmentShoppingHistoryItemBinding
 import data.ReceiptItem
 import viewModels.SharedGroupMenuViewModels
+import java.sql.Timestamp
+import java.text.SimpleDateFormat
+import java.util.*
 
 class ShoppingHistoryAdapter(private val receiptList: List<ReceiptItem>, activityViewModels: SharedGroupMenuViewModels) :
     RecyclerView.Adapter<ShoppingHistoryAdapter.ShoppingHistoryHolder>() {
@@ -29,7 +32,7 @@ class ShoppingHistoryAdapter(private val receiptList: List<ReceiptItem>, activit
         with(holder) {
             binding.tvOwner.text = currentItem.owner
             binding.tvShop.text = currentItem.market
-            binding.tvTimestamp.text = currentItem.date.toString()
+            binding.tvTimestamp.text = SimpleDateFormat("dd.MM.yyyy").format(Date(Timestamp(currentItem.date).time))
             binding.cvReceipt.setOnClickListener {
                 val action = ShoppingHistoryFragmentDirections.actionShoppingHistoryFragmentToReceiptWithArticlesFragment()
                 sharedViewModel.setReceiptId(currentItem.receipt_id)

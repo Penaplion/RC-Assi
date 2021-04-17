@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_groupMenuFragment_to_addReceiptFragment"
             app:destination="@id/addReceiptFragment" />
+        <action
+            android:id="@+id/action_groupMenuFragment_to_financeFragment"
+            app:destination="@id/financeFragment" />
     </fragment>
     <fragment
         android:id="@+id/shoppingHistoryFragment"
@@ -53,4 +56,18 @@
         android:name="activities.fragments.AssignArticlesToPersonsFragment"
         android:label="fragment_assign_articles_to_persons"
         tools:layout="@layout/fragment_assign_articles_to_persons" />
+    <fragment
+        android:id="@+id/financeFragment"
+        android:name="activities.fragments.FinanceFragment"
+        android:label="fragment_finance"
+        tools:layout="@layout/fragment_finance" >
+        <action
+            android:id="@+id/action_financeFragment_to_financeFromPersonFragment"
+            app:destination="@id/financeFromPersonFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/financeFromPersonFragment"
+        android:name="activities.fragments.FinanceFromPersonFragment"
+        android:label="fragment_finance_from_person"
+        tools:layout="@layout/fragment_finance_from_person" />
 </navigation>

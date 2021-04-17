@@ -14,6 +14,7 @@ import data.ReceiptItem
 import kotlinx.coroutines.runBlocking
 import multipleroomtables.Database
 import viewModels.SharedGroupMenuViewModels
+import java.sql.Timestamp
 import kotlin.properties.Delegates
 
 class ShoppingHistoryFragment : Fragment() {
@@ -29,6 +30,7 @@ class ShoppingHistoryFragment : Fragment() {
     ): View {
         _binding = FragmentShoppingHistoryBinding.inflate(inflater, container, false)
 
+        groupId = sharedViewModel.groupId.value!!
         sharedViewModel.groupId.observe(viewLifecycleOwner, {
             groupId = it
         })
@@ -39,14 +41,13 @@ class ShoppingHistoryFragment : Fragment() {
         val receiptList: MutableList<ReceiptItem> = emptyList<ReceiptItem>().toMutableList()
 
         runBlocking {
-            // TODO("Check later after filling DB with receipts by Queries")
-            val receipts = db.getGroupWithReceipts(groupId)
+            val receipts = db.getGroupWithReceipts(groupId)[0].receipt
             receipts.forEach {
-//                receiptList += ReceiptItem(
-//                    it.market,
-//                    db.getPersonById(it.person_id).person_name,
-//                    Timestamp(it.date).toString()
-//                )
+                receiptList += ReceiptItem(
+                    it.receipt_id, it.person_id, it.group_id,
+                    it.date, it.market, it.url, it.state, it.total,
+                    db.getPersonById(it.person_id).person_name
+                )
             }
         }
 

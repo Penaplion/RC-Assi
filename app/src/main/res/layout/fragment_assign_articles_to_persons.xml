@@ -38,14 +38,13 @@
 
     <EditText
         android:id="@+id/etPrice"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:ems="10"
         android:hint="@string/price"
         android:inputType="numberDecimal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/etAmount"
         app:layout_constraintTop_toBottomOf="@+id/etAmount" />
 
     <EditText
@@ -103,5 +102,14 @@
         android:text="@string/save"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <Spinner
+        android:id="@+id/spinnerAssignPerson"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/etPrice"
+        app:layout_constraintStart_toEndOf="@+id/etPrice"
+        app:layout_constraintTop_toTopOf="@+id/etPrice" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -41,6 +41,10 @@ class GroupMenuFragment : Fragment() {
             Navigation.findNavController(requireView())
                 .navigate(GroupMenuFragmentDirections.actionGroupMenuFragmentToAddReceiptFragment())
         }
+        binding.cvBalance.setOnClickListener {
+            Navigation.findNavController(requireView())
+                .navigate(GroupMenuFragmentDirections.actionGroupMenuFragmentToFinanceFragment())
+        }
         binding.btnBackToGroup.setOnClickListener {
             activity?.finish()
         }

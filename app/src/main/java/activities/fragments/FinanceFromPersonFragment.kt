@@ -24,7 +24,6 @@ class FinanceFromPersonFragment : Fragment() {
     private var _binding: FragmentFinanceFromPersonBinding? = null
     private val binding get() = _binding!!
     private val sharedViewModel: SharedGroupMenuViewModels by activityViewModels()
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

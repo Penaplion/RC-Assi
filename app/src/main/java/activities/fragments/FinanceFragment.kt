@@ -1,5 +1,6 @@
 package activities.fragments
 
+
 import adapters.FinanceAdapter
 import adapters.GroupAdapter
 import android.os.Bundle
@@ -24,7 +25,6 @@ class FinanceFragment : Fragment() {
     private val sharedViewModel: SharedGroupMenuViewModels by activityViewModels()
     private var _binding: FragmentFinanceBinding? = null
     private val binding get() = _binding!!
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

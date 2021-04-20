@@ -1,5 +1,6 @@
 package utils
 
+import data.FinanceFromPersonItem
 import multipleroomtables.entities.Person
 
 class CompareLists {
@@ -15,6 +16,24 @@ class CompareLists {
             }
         }
         return true
+    }
+
+    fun containsDebtor(list: List<FinanceFromPersonItem>, debtor: String): Boolean {
+        list.forEach {
+            if (it.debtor == debtor) {
+                return true
+            }
+        }
+        return false
+    }
+
+    fun findPosition(list: List<FinanceFromPersonItem>, debtor: String): Int {
+        list.forEachIndexed { index, it ->
+            if (it.debtor == debtor) {
+                return index
+            }
+        }
+        return 0
     }
 
     fun deletePersonInList(list: MutableList<Person>, name: String): MutableList<Person> {

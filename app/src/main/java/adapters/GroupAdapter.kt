@@ -38,7 +38,6 @@ class GroupAdapter(private val groupList: List<GroupItem>) :
 
             binding.cvGroupCard.setOnClickListener {
                 val intent = Intent(
-                    
                     holder.itemView.context.applicationContext,
                     GroupMenuActivity::class.java
                 )

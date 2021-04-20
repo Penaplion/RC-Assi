@@ -8,8 +8,6 @@ import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.Navigation
-import androidx.navigation.fragment.navArgs
-import com.example.rc_assi.R
 import com.example.rc_assi.databinding.FragmentAddReceiptBinding
 import kotlinx.coroutines.runBlocking
 import multipleroomtables.Database
@@ -24,7 +22,8 @@ class AddReceiptFragment : Fragment() {
     private val binding get() = _binding!!
     private val sharedViewModel: SharedGroupMenuViewModels by activityViewModels()
     private var groupId by Delegates.notNull<Int>()
-    private var imageUrl by Delegates.notNull<String>()
+    //private var imageUrl by Delegates.notNull<String>()
+    private var imageUrl: String = ""
 
 
     override fun onCreateView(
@@ -68,9 +67,9 @@ class AddReceiptFragment : Fragment() {
 
         binding.btnGoToDist.setOnClickListener {
             val date: Long = binding.cvDatePicker.date
-            val market: String = binding.etMarket.toString()
+            val market: String = binding.etMarket.text.toString()
             val status: Boolean = false
-            var total = binding.etTotal.text.toString().toFloat()
+            val total = binding.etTotal.text.toString().replace(',', '.').toFloat()
             val personName: String = binding.spinnerOwner.selectedItem as String
             val url: String = imageUrl
             val groupid: Int = groupId
@@ -82,7 +81,6 @@ class AddReceiptFragment : Fragment() {
 
             val action =
                 AddReceiptFragmentDirections.actionAddReceiptFragmentToAssignArticlesToPersonsFragment()
-            //action.receiptID = receiptID
             Navigation.findNavController(view).navigate(action)
         }
         binding.ibtnTakePhoto.setOnClickListener {

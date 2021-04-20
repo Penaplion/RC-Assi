@@ -18,7 +18,7 @@ import multipleroomtables.entities.relations.PersonGroupCrossRef
         PersonArticleCrossRef::class,
         PersonGroupCrossRef::class
     ],
-    version = 1
+    version = 2
 )
 abstract class Database : RoomDatabase() {
 

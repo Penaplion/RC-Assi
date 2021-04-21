@@ -8,17 +8,15 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rc_assi.databinding.FragmentAssignArticlesToPersonsItemBinding
+import data.NestedAsignmentsItem
 import viewModels.SharedAssignArticlesToPersonsChildViewModel
 import viewModels.SharedAssignArticlesToPersonsParentViewModel
 
 class AssignmentsParentAdapter(
-    exampleList: ArrayList<SharedAssignArticlesToPersonsParentViewModel>,
-    context: Context
+    private val exampleList: ArrayList<NestedAsignmentsItem>,
+    private val context: Context
 ) :
     RecyclerView.Adapter<AssignmentsParentAdapter.MyViewHolder>() {
-    private val parentModelArrayList: ArrayList<SharedAssignArticlesToPersonsParentViewModel> =
-        exampleList
-    private var cxt: Context = context
 
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val binding = FragmentAssignArticlesToPersonsItemBinding.bind(itemView)
@@ -30,29 +28,16 @@ class AssignmentsParentAdapter(
         return MyViewHolder(view)
     }
 
-    override fun getItemCount(): Int {
-        return parentModelArrayList.size
-    }
+    override fun getItemCount() = exampleList.size
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val currentItem = parentModelArrayList[position]
-        val layoutManager: RecyclerView.LayoutManager =
-            LinearLayoutManager(cxt, LinearLayoutManager.HORIZONTAL, false)
-        holder.binding.tvOwner.text = currentItem.owner()
-        holder.binding.rvChildRecyclerView.layoutManager = layoutManager
-        holder.binding.rvChildRecyclerView.setHasFixedSize(true)
+        val currentItem = exampleList[position]
+        holder.binding.tvOwner.text = currentItem.owner
+        holder.binding.rvChildRecyclerView.adapter = AssignmentsChildAdapter(currentItem.list)
+        holder.binding.rvChildRecyclerView.layoutManager = LinearLayoutManager(context)
+    }
 
-        val arrayList: ArrayList<SharedAssignArticlesToPersonsChildViewModel> = ArrayList()
-
-        // added the first child row
-        if (parentModelArrayList[position].owner() == "heidi") {
-            arrayList.add(SharedAssignArticlesToPersonsChildViewModel("schoki", 0.99))
-            arrayList.add(SharedAssignArticlesToPersonsChildViewModel("wein", 8.99))
-            arrayList.add(SharedAssignArticlesToPersonsChildViewModel("schoki", 0.99))
-            arrayList.add(SharedAssignArticlesToPersonsChildViewModel("wein", 8.99))
-        }
-
-        val childRecyclerViewAdapter = AssignmentsChildAdapter(arrayList)
-        holder.binding.rvChildRecyclerView.adapter = childRecyclerViewAdapter
+    fun notifyChanges() {
+        notifyDataSetChanged()
     }
 }

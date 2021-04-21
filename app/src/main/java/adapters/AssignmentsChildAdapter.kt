@@ -6,10 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rc_assi.databinding.FragmentAssignArticlesToPersonsChildItemBinding
+import data.ChildAssignmentsItem
 import viewModels.SharedAssignArticlesToPersonsChildViewModel
 
 class AssignmentsChildAdapter(
-    private val childModelArrayList: ArrayList<SharedAssignArticlesToPersonsChildViewModel>
+    private val childModelArrayList: ArrayList<ChildAssignmentsItem>
 ) :
     RecyclerView.Adapter<AssignmentsChildAdapter.MyViewHolder>() {
     
@@ -25,8 +26,8 @@ class AssignmentsChildAdapter(
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val currentItem = childModelArrayList[position]
         with(holder) {
-            binding.tvAssignmentItemArticleName.text = currentItem.articleName
-            binding.tvAssignmentItemArticlePrice.text = currentItem.articlePrice.toString()
+            binding.tvAssignmentItemArticleName.text = currentItem.article
+            binding.tvAssignmentItemArticlePrice.text = currentItem.price.toString()
         }
     }
 

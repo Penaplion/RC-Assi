@@ -13,12 +13,16 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rc_assi.R
 import com.example.rc_assi.databinding.FragmentAssignArticlesToPersonsBinding
+import data.ChildAssignmentsItem
+import data.NestedAsignmentsItem
 import kotlinx.coroutines.runBlocking
 import multipleroomtables.Database
 import multipleroomtables.entities.Article
 import multipleroomtables.entities.relations.PersonArticleCrossRef
+import utils.CompareLists
 import viewModels.SharedAssignArticlesToPersonsParentViewModel
 import viewModels.SharedGroupMenuViewModels
+import java.lang.IndexOutOfBoundsException
 import kotlin.properties.Delegates
 
 
@@ -27,11 +31,7 @@ class AssignArticlesToPersonsFragment : Fragment() {
     private val binding get() = _binding!!
     private val sharedViewModel: SharedGroupMenuViewModels by activityViewModels()
     private var receiptId by Delegates.notNull<Int>()
-
-    private var parentRecyclerView: RecyclerView? = null
-    private var parentAdapter: RecyclerView.Adapter<*>? = null
-    var parentModelArrayList: ArrayList<SharedAssignArticlesToPersonsParentViewModel> = ArrayList()
-    private var parentLayoutManager: RecyclerView.LayoutManager? = null
+    private var nestedList = ArrayList<NestedAsignmentsItem>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,14 +45,8 @@ class AssignArticlesToPersonsFragment : Fragment() {
             receiptId = it
         })
 
-        parentModelArrayList.add(SharedAssignArticlesToPersonsParentViewModel("heidi"))
-        parentRecyclerView = binding.rvParentRecyclerView
-        parentRecyclerView!!.setHasFixedSize(true)
-        parentLayoutManager = LinearLayoutManager(requireContext())
-        parentAdapter = AssignmentsParentAdapter(parentModelArrayList, requireContext())
-        parentRecyclerView!!.layoutManager = parentLayoutManager
-        parentRecyclerView!!.adapter = parentAdapter
-        parentAdapter!!.notifyDataSetChanged()
+        binding.rvParentRecyclerView.adapter = AssignmentsParentAdapter(nestedList, requireContext())
+        binding.rvParentRecyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         return binding.root
     }
@@ -62,8 +56,6 @@ class AssignArticlesToPersonsFragment : Fragment() {
 
         //DatenbankInstanz
         val db = Database.getInstance(view.context).dao
-
-
 
         binding.btnAdd.setOnClickListener {
             //Hinzufügen ohne Löschen des Geschriebenen
@@ -82,7 +74,18 @@ class AssignArticlesToPersonsFragment : Fragment() {
                     db.insertPersonArticleCrossRef(crossRef)
                 }
             }
-            parentAdapter!!.notifyDataSetChanged()
+
+            try {
+                nestedList[CompareLists().getIndexFromListAssignments(nestedList, nameOfPersonSharing)].list.add(
+                    ChildAssignmentsItem(articleName, price)
+                )
+            } catch (e: IndexOutOfBoundsException) {
+                val childList: ArrayList<ChildAssignmentsItem> = ArrayList()
+                childList.add(ChildAssignmentsItem(articleName, price))
+                nestedList.add(NestedAsignmentsItem(nameOfPersonSharing, childList))
+            }
+            binding.rvParentRecyclerView.adapter?.notifyDataSetChanged()
+
         }
 
         binding.btnAddAndClear.setOnClickListener {
@@ -107,7 +110,6 @@ class AssignArticlesToPersonsFragment : Fragment() {
                     db.insertPersonArticleCrossRef(crossRef)
                 }
             }
-            parentAdapter!!.notifyDataSetChanged()
         }
 
 

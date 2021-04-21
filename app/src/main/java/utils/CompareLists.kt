@@ -1,5 +1,6 @@
 package utils
 
+import data.NestedAsignmentsItem
 import multipleroomtables.entities.Person
 
 class CompareLists {
@@ -25,5 +26,14 @@ class CompareLists {
             }
         }
         return list
+    }
+
+    fun getIndexFromListAssignments(list: ArrayList<NestedAsignmentsItem>, owner: String): Int {
+        list.forEachIndexed{ index, it ->
+            if (it.owner == owner) {
+                return index
+            }
+        }
+        return -1
     }
 }

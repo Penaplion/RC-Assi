@@ -41,6 +41,7 @@ class GroupAdapter(private val groupList: List<GroupItem>) :
                     holder.itemView.context.applicationContext,
                     GroupMenuActivity::class.java
                 )
+                intent.putExtra("groupID","")
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                 intent.putExtra("GROUP_ID", currentItem.group_id)
                 holder.itemView.context.applicationContext.startActivity(intent)

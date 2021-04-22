@@ -16,8 +16,12 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.navigation.Navigation
+import androidx.navigation.fragment.navArgs
 import com.example.rc_assi.R
 import com.example.rc_assi.databinding.FragmentCameraBinding
+import viewModels.SharedGroupMenuViewModels
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
@@ -28,10 +32,9 @@ class CameraFragment : Fragment() {
     private var _binding: FragmentCameraBinding? = null
     private val binding get() = _binding!!
     private var imageCapture: ImageCapture? = null
-    private var permissionsGranted: Boolean? = false
     private lateinit var outputDirectory: File
     private lateinit var cameraExecutor: ExecutorService
-
+    private val sharedViewModel: SharedGroupMenuViewModels by activityViewModels()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -88,6 +91,10 @@ class CameraFragment : Fragment() {
                     val msg = "Photo capture succeeded: $savedUri"
                     Toast.makeText(activity, msg, Toast.LENGTH_SHORT).show()
                     Log.d(TAG, msg)
+
+                    // navigate back to AddReceiptFragment when taken a photo
+                    sharedViewModel.setImageUrl(savedUri.toString())
+                    Navigation.findNavController(requireView()).popBackStack()
                 }
             })
     }

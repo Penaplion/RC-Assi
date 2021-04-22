@@ -14,8 +14,11 @@
             android:id="@+id/action_groupMenuFragment_to_shoppingHistoryFragment"
             app:destination="@id/shoppingHistoryFragment" />
         <action
-            android:id="@+id/action_groupMenuFragment_to_cameraFragment"
-            app:destination="@id/cameraFragment" />
+            android:id="@+id/action_groupMenuFragment_to_addReceiptFragment"
+            app:destination="@id/addReceiptFragment" />
+        <action
+            android:id="@+id/action_groupMenuFragment_to_financeFragment"
+            app:destination="@id/financeFragment" />
     </fragment>
     <fragment
         android:id="@+id/shoppingHistoryFragment"
@@ -23,32 +26,49 @@
         android:label="fragment_shopping_history"
         tools:layout="@layout/fragment_shopping_history" >
         <action
-            android:id="@+id/action_shoppingHistoryFragment_to_groupMenuFragment"
-            app:destination="@id/groupMenuFragment" />
-        <action
             android:id="@+id/action_shoppingHistoryFragment_to_receiptWithArticlesFragment"
             app:destination="@id/receiptWithArticlesFragment" />
-        <argument
-            android:name="groupID"
-            app:argType="integer"
-            android:defaultValue="0" />
     </fragment>
     <fragment
         android:id="@+id/receiptWithArticlesFragment"
         android:name="activities.fragments.ReceiptWithArticlesFragment"
         android:label="fragment_receipt_with_articles"
-        tools:layout="@layout/fragment_receipt_with_articles" >
-        <action
-            android:id="@+id/action_receiptWithArticlesFragment_to_shoppingHistoryFragment"
-            app:destination="@id/shoppingHistoryFragment" />
-        <argument
-            android:name="receiptID"
-            app:argType="integer"
-            android:defaultValue="0" />
-    </fragment>
+        tools:layout="@layout/fragment_receipt_with_articles" />
     <fragment
         android:id="@+id/cameraFragment"
         android:name="activities.fragments.CameraFragment"
         android:label="fragment_camera"
         tools:layout="@layout/fragment_camera" />
+    <fragment
+        android:id="@+id/addReceiptFragment"
+        android:name="activities.fragments.AddReceiptFragment"
+        android:label="fragment_add_receipt"
+        tools:layout="@layout/fragment_add_receipt" >
+        <action
+            android:id="@+id/action_addReceiptFragment_to_cameraFragment"
+            app:destination="@id/cameraFragment" />
+        <action
+            android:id="@+id/action_addReceiptFragment_to_assignArticlesToPersonsFragment"
+            app:destination="@id/assignArticlesToPersonsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/assignArticlesToPersonsFragment"
+        android:name="activities.fragments.AssignArticlesToPersonsFragment"
+        android:label="fragment_assign_articles_to_persons"
+        tools:layout="@layout/fragment_assign_articles_to_persons" />
+    <fragment
+        android:id="@+id/financeFragment"
+        android:name="activities.fragments.FinanceFragment"
+        android:label="fragment_finance"
+        tools:layout="@layout/fragment_finance" >
+        <action
+            android:id="@+id/action_financeFragment_to_financeFromPersonFragment"
+            app:destination="@id/financeFromPersonFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/financeFromPersonFragment"
+        android:name="activities.fragments.FinanceFromPersonFragment"
+        android:label="fragment_finance_from_person"
+        tools:layout="@layout/fragment_finance_from_person" />
+
 </navigation>

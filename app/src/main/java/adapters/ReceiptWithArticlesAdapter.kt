@@ -25,9 +25,23 @@ class ReceiptWithArticlesAdapter(private val articleList: List<ArticleItem>) :
     ) {
         val currentItem = articleList[position]
         with(holder) {
-            binding.tvArticle.text = currentItem.name
+            if (currentItem.unit == "Stk.") {
+                binding.tvArticle.text = "%.0f".format(currentItem.amount) + "x " + currentItem.name
+            } else if (currentItem.unit == "kg") {
+                binding.tvArticle.text = "%.0f".format(currentItem.amount) + "kg " + currentItem.name
+            } else if (currentItem.unit == "g") {
+                binding.tvArticle.text = "%.0f".format(currentItem.amount) + "g " + currentItem.name
+            }
+
             binding.tvAssignments.text = currentItem.assignment
-            binding.tvPrice.text = currentItem.price.toString() + R.string.currency_symbol
+            var price = ""
+            price = if(currentItem.unit == "g"){
+                "%.2f".format(currentItem.price * currentItem.amount*0.01)
+            }else{
+                "%.2f".format(currentItem.price * currentItem.amount)
+            }
+
+            binding.tvPrice.text = price + holder.itemView.context.getString(R.string.currency_symbol)
         }
     }
 

@@ -10,6 +10,7 @@ data class Article (
     val receipt_id: Int,
 
     val price: Float,
-    val amount: Int,
-    val name: String
+    val amount: Float,
+    val name: String,
+    val unit: String
 )

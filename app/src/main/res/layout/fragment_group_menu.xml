@@ -8,15 +8,12 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/cvBalance"
         android:layout_width="0dp"
-        android:layout_height="200dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        app:cardCornerRadius="6dp"
-        app:layout_constraintEnd_toStartOf="@+id/cvPurchases"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cvGraph">
+        android:layout_height="100dp"
+        android:layout_marginTop="32dp"
+        app:cardCornerRadius="20dp"
+        app:layout_constraintEnd_toEndOf="@+id/cvPurchases"
+        app:layout_constraintStart_toStartOf="@+id/cvPurchases"
+        app:layout_constraintTop_toBottomOf="@+id/cvPurchases">
 
         <ImageView
             android:id="@+id/ivBalance"
@@ -29,14 +26,11 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/cvPurchases"
         android:layout_width="0dp"
-        android:layout_height="200dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        app:cardCornerRadius="6dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/cvBalance"
+        android:layout_height="100dp"
+        android:layout_marginTop="32dp"
+        app:cardCornerRadius="20dp"
+        app:layout_constraintEnd_toEndOf="@+id/cvCamera"
+        app:layout_constraintStart_toStartOf="@+id/cvCamera"
         app:layout_constraintTop_toBottomOf="@+id/cvCamera">
 
         <ImageView
@@ -48,39 +42,15 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cvGraph"
-        android:layout_width="0dp"
-        android:layout_height="200dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        app:cardCornerRadius="6dp"
-        app:layout_constraintBottom_toTopOf="@+id/cvBalance"
-        app:layout_constraintEnd_toStartOf="@+id/cvCamera"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:id="@+id/ivGraph"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/black_border"
-            android:src="@drawable/graphs" />
-    </androidx.cardview.widget.CardView>
-
-    <androidx.cardview.widget.CardView
         android:id="@+id/cvCamera"
         android:layout_width="0dp"
-        android:layout_height="200dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        app:cardCornerRadius="6dp"
-        app:layout_constraintBottom_toTopOf="@+id/cvPurchases"
+        android:layout_height="100dp"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="64dp"
+        app:cardCornerRadius="20dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/cvGraph"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView

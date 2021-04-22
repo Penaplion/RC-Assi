@@ -23,7 +23,7 @@ interface Dao {
     suspend fun insertReceipt(receipt: Receipt)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertArticle(article: Article)
+    suspend fun insertArticle(article: Article): Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertPersonGroupCrossRef(crossRef: PersonGroupCrossRef)
@@ -103,6 +103,10 @@ interface Dao {
     suspend fun getReceipts(): List<Receipt>
 
     @Transaction
+    @Query("SELECT * FROM article")
+    suspend fun getArticles(): List<Article>
+
+    @Transaction
     @Query("SELECT * FROM person")
     suspend fun getPersons(): List<Person>
 
@@ -132,4 +136,8 @@ interface Dao {
     @Transaction
     @Query("SELECT EXISTS(SELECT * FROM persongroupcrossref WHERE person_id = (SELECT person_id FROM person WHERE person_name = :person_name)  AND group_id = :group_id)")
     suspend fun groupContainsPerson(person_name: String, group_id: Int): Boolean
+
+    @Transaction
+    @Query ("SELECT person_id FROM person WHERE person_name =:person_name")
+    suspend fun  getPersonIDByName(person_name : String): Int
 }

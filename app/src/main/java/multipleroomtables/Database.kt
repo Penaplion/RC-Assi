@@ -18,7 +18,7 @@ import multipleroomtables.entities.relations.PersonGroupCrossRef
         PersonArticleCrossRef::class,
         PersonGroupCrossRef::class
     ],
-    version = 1
+    version = 3
 )
 abstract class Database : RoomDatabase() {
 
@@ -34,7 +34,7 @@ abstract class Database : RoomDatabase() {
                     context.applicationContext,
                     multipleroomtables.Database::class.java,
                     "database"
-                ).fallbackToDestructiveMigration().build().also {
+                ).allowMainThreadQueries().fallbackToDestructiveMigration().build().also {
                     INSTANCE = it
                 }
             }

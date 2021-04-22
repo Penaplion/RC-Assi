@@ -25,7 +25,7 @@
     <!-- Article-->
     <string name="article_name">article name</string>
     <string name="amount">amount</string>
-    <string name="price">price</string>
+    <string name="price">price/unit</string>
     <string name="currency_symbol">€</string>
     <string name="assigned">€</string>
 
@@ -38,5 +38,7 @@
 
     <!-- Camera-->
     <string name="take_photo">take photo</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

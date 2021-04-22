@@ -34,7 +34,7 @@ abstract class Database : RoomDatabase() {
                     context.applicationContext,
                     multipleroomtables.Database::class.java,
                     "database"
-                ).fallbackToDestructiveMigration().build().also {
+                ).allowMainThreadQueries().fallbackToDestructiveMigration().build().also {
                     INSTANCE = it
                 }
             }

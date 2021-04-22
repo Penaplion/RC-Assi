@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.Toast
+import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.Navigation
@@ -13,6 +15,9 @@ import kotlinx.coroutines.runBlocking
 import multipleroomtables.Database
 import multipleroomtables.entities.Receipt
 import viewModels.SharedGroupMenuViewModels
+import java.sql.Timestamp
+import java.text.SimpleDateFormat
+import java.util.*
 import kotlin.properties.Delegates
 
 
@@ -55,7 +60,6 @@ class AddReceiptFragment : Fragment() {
             persons.persons.forEach {
                 arraySpinner += it.person_name
             }
-
         }
 
         val adapter: ArrayAdapter<String> = ArrayAdapter<String>(
@@ -66,7 +70,8 @@ class AddReceiptFragment : Fragment() {
         binding.spinnerOwner.adapter = adapter
 
         binding.btnGoToDist.setOnClickListener {
-            val date: Long = binding.cvDatePicker.date
+            val timestamp = Timestamp(binding.cvDatePicker.year-1900, binding.cvDatePicker.month, binding.cvDatePicker.dayOfMonth, 0, 0, 0, 0)
+            val date: Long = timestamp.time
             val market: String = binding.etMarket.text.toString()
             val status: Boolean = false
             val total = binding.etTotal.text.toString().replace(',', '.').toFloat()

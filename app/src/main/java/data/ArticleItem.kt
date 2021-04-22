@@ -7,6 +7,7 @@ data class ArticleItem (
     val price: Float,
     val amount: Float,
     val name: String,
+    val unit: String,
 
     val assignment: String
 )

@@ -7,7 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import android.widget.ArrayAdapter
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -15,12 +17,15 @@ import com.example.rc_assi.R
 import com.example.rc_assi.databinding.FragmentAssignArticlesToPersonsBinding
 import data.ChildAssignmentsItem
 import data.NestedAsignmentsItem
+import utils.CompareLists
+import viewModels.SharedAssignArticlesToPersonsParentViewModel
+import com.example.rc_assi.databinding.FragmentGroupMenuBinding
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import multipleroomtables.Database
 import multipleroomtables.entities.Article
+import multipleroomtables.entities.Receipt
 import multipleroomtables.entities.relations.PersonArticleCrossRef
-import utils.CompareLists
-import viewModels.SharedAssignArticlesToPersonsParentViewModel
 import viewModels.SharedGroupMenuViewModels
 import java.lang.IndexOutOfBoundsException
 import kotlin.properties.Delegates
@@ -39,6 +44,33 @@ class AssignArticlesToPersonsFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         _binding = FragmentAssignArticlesToPersonsBinding.inflate(inflater, container, false)
+
+        val db = Database.getInstance(requireContext()).dao
+
+        var arraySpinnerPerson = emptyArray<String>()
+
+        runBlocking {
+            val persons = db.getPersonsOfGroup(sharedViewModel.groupId.value!!)[0]
+            persons.persons.forEach {
+                arraySpinnerPerson += it.person_name
+            }
+        }
+
+        val adapterPerson: ArrayAdapter<String> = ArrayAdapter<String>(
+            requireContext(),
+            android.R.layout.simple_spinner_item, arraySpinnerPerson
+        )
+        adapterPerson.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        binding.spinnerAssignPerson.adapter = adapterPerson
+
+        val arraySpinner: Array<String> = arrayOf("Stk.", "kg", "g")
+
+        val adapter: ArrayAdapter<String> = ArrayAdapter<String>(
+            requireContext(),
+            android.R.layout.simple_spinner_item, arraySpinner
+        )
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        binding.spinner.adapter = adapter
 
         receiptId = sharedViewModel.receiptId.value!!
         sharedViewModel.receiptId.observe(viewLifecycleOwner, {
@@ -63,16 +95,14 @@ class AssignArticlesToPersonsFragment : Fragment() {
             val nameOfPersonSharing = binding.etNameOfPersonSharing.text.toString()
             val price: Float = binding.etPrice.text.toString().toFloat()
             val amount: Float = binding.etAmount.text.toString().toFloat()
-            val receiptNumber: Int = receiptId
+            val receiptnumber: Int = receiptId
+            val unit: String = binding.spinner.selectedItem.toString()
 
-            runBlocking {
-                val articleId: Long =
-                    db.insertArticle(Article(0, receiptNumber, price, amount, articleName))
-                if (nameOfPersonSharing.isNotBlank()) {
-                    val personId: Int = db.getPersonIDByName(nameOfPersonSharing)
-                    val crossRef = PersonArticleCrossRef(personId, articleId.toInt())
-                    db.insertPersonArticleCrossRef(crossRef)
-                }
+            lifecycleScope.launch {
+                db.insertArticle(Article(0, receiptnumber, price, amount, name, unit))
+                val person_id = db.getPersonByName(binding.spinnerAssignPerson.selectedItem.toString()).person_id
+                val article_id = db.getArticles().last().article_id
+                db.insertPersonArticleCrossRef(PersonArticleCrossRef(person_id, article_id))
             }
 
             try {
@@ -94,7 +124,8 @@ class AssignArticlesToPersonsFragment : Fragment() {
             val nameOfPersonSharing = binding.etNameOfPersonSharing.text.toString()
             val price: Float = binding.etPrice.text.toString().toFloat()
             val amount: Float = binding.etAmount.text.toString().toFloat()
-            val receiptNumber: Int = receiptId
+            val receiptnumber: Int = receiptId
+            val unit: String = binding.spinner.selectedItem.toString()
 
             binding.etName.text = Editable.Factory.getInstance().newEditable("")
             binding.etPrice.text = Editable.Factory.getInstance().newEditable("")
@@ -109,6 +140,7 @@ class AssignArticlesToPersonsFragment : Fragment() {
                     val crossRef = PersonArticleCrossRef(personId, articleId.toInt())
                     db.insertPersonArticleCrossRef(crossRef)
                 }
+
             }
         }
 
@@ -118,7 +150,7 @@ class AssignArticlesToPersonsFragment : Fragment() {
         binding.btnSave.setOnClickListener {
             //Speichern der Quittung
             // TODO("popBackStack to GroupMenuFragment")
-            Navigation.findNavController(requireView()).popBackStack(R.id.groupMenuFragment, true)
+            Navigation.findNavController(requireView()).popBackStack(R.id.groupMenuFragment, false)
         }
     }
 

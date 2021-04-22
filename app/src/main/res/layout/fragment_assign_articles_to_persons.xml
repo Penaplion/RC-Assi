@@ -135,4 +135,13 @@
         app:layout_constraintStart_toEndOf="@+id/etPrice"
         app:layout_constraintTop_toTopOf="@+id/etPrice" />
 
+    <Spinner
+        android:id="@+id/spinnerAssignPerson"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/etPrice"
+        app:layout_constraintStart_toEndOf="@+id/etPrice"
+        app:layout_constraintTop_toTopOf="@+id/etPrice" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

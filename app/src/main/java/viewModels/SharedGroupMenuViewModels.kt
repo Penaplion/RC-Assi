@@ -14,6 +14,9 @@ class SharedGroupMenuViewModels: ViewModel() {
     private val _receiptId = MutableLiveData<Int>()
     val receiptId: LiveData<Int> = _receiptId
 
+    private val _creditor = MutableLiveData<String>()
+    val creditor: LiveData<String> = _creditor
+
     fun setGroupId(groupId: Int) {
         _groupId.value = groupId
     }
@@ -24,5 +27,9 @@ class SharedGroupMenuViewModels: ViewModel() {
 
     fun setReceiptId(receiptId: Int) {
         _receiptId.value = receiptId
+    }
+
+    fun setCreditor(creditor: String) {
+        _creditor.value = creditor
     }
 }

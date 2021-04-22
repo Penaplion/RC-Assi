@@ -11,5 +11,6 @@ data class Article (
 
     val price: Float,
     val amount: Float,
-    val name: String
+    val name: String,
+    val unit: String
 )

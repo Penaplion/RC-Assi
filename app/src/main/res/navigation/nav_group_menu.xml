@@ -70,4 +70,5 @@
         android:name="activities.fragments.FinanceFromPersonFragment"
         android:label="fragment_finance_from_person"
         tools:layout="@layout/fragment_finance_from_person" />
+
 </navigation>

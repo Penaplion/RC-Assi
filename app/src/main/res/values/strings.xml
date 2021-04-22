@@ -31,6 +31,10 @@
 
     <!-- Assignments-->
     <string name="assign_articles_to_persons">assign articles to persons</string>
+    <string name="owner">owner</string>
+    <string name="share_with">shared with</string>
+    <string name="assignment_item_article">article</string>
+    <string name="assignment_item_price">price</string>
 
     <!-- Camera-->
     <string name="take_photo">take photo</string>

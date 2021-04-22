@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-data class Receipt (
+data class Receipt(
     @PrimaryKey(autoGenerate = true)
     val receipt_id: Int,
     val person_id: Int,

@@ -23,7 +23,7 @@ interface Dao {
     suspend fun insertReceipt(receipt: Receipt)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertArticle(article: Article)
+    suspend fun insertArticle(article: Article): Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertPersonGroupCrossRef(crossRef: PersonGroupCrossRef)

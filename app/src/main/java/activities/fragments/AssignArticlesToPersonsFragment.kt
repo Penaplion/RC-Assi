@@ -1,18 +1,24 @@
 package activities.fragments
 
+import adapters.AssignmentsParentAdapter
 import android.os.Bundle
 import android.text.Editable
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import android.widget.ArrayAdapter
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
-import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.rc_assi.R
 import com.example.rc_assi.databinding.FragmentAssignArticlesToPersonsBinding
+import data.ChildAssignmentsItem
+import data.NestedAsignmentsItem
+import utils.CompareLists
+import viewModels.SharedAssignArticlesToPersonsParentViewModel
 import com.example.rc_assi.databinding.FragmentGroupMenuBinding
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -21,13 +27,16 @@ import multipleroomtables.entities.Article
 import multipleroomtables.entities.Receipt
 import multipleroomtables.entities.relations.PersonArticleCrossRef
 import viewModels.SharedGroupMenuViewModels
+import java.lang.IndexOutOfBoundsException
 import kotlin.properties.Delegates
+
 
 class AssignArticlesToPersonsFragment : Fragment() {
     private var _binding: FragmentAssignArticlesToPersonsBinding? = null
     private val binding get() = _binding!!
     private val sharedViewModel: SharedGroupMenuViewModels by activityViewModels()
     private var receiptId by Delegates.notNull<Int>()
+    private var nestedList = ArrayList<NestedAsignmentsItem>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -68,23 +77,22 @@ class AssignArticlesToPersonsFragment : Fragment() {
             receiptId = it
         })
 
+        binding.rvParentRecyclerView.adapter = AssignmentsParentAdapter(nestedList, requireContext())
+        binding.rvParentRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-        val groupID = activity?.intent?.getIntExtra("GROUP_ID", 0)!!
-
         //DatenbankInstanz
         val db = Database.getInstance(view.context).dao
 
-
-
         binding.btnAdd.setOnClickListener {
             //Hinzufügen ohne Löschen des Geschriebenen
-            val name: String = binding.etName.text.toString()
+            val articleName: String = binding.etName.text.toString()
+            val nameOfPersonSharing = binding.etNameOfPersonSharing.text.toString()
             val price: Float = binding.etPrice.text.toString().toFloat()
             val amount: Float = binding.etAmount.text.toString().toFloat()
             val receiptnumber: Int = receiptId
@@ -96,11 +104,24 @@ class AssignArticlesToPersonsFragment : Fragment() {
                 val article_id = db.getArticles().last().article_id
                 db.insertPersonArticleCrossRef(PersonArticleCrossRef(person_id, article_id))
             }
+
+            try {
+                nestedList[CompareLists().getIndexFromListAssignments(nestedList, nameOfPersonSharing)].list.add(
+                    ChildAssignmentsItem(articleName, price)
+                )
+            } catch (e: IndexOutOfBoundsException) {
+                val childList: ArrayList<ChildAssignmentsItem> = ArrayList()
+                childList.add(ChildAssignmentsItem(articleName, price))
+                nestedList.add(NestedAsignmentsItem(nameOfPersonSharing, childList))
+            }
+            binding.rvParentRecyclerView.adapter?.notifyDataSetChanged()
+
         }
 
         binding.btnAddAndClear.setOnClickListener {
 
             val name: String = binding.etName.text.toString()
+            val nameOfPersonSharing = binding.etNameOfPersonSharing.text.toString()
             val price: Float = binding.etPrice.text.toString().toFloat()
             val amount: Float = binding.etAmount.text.toString().toFloat()
             val receiptnumber: Int = receiptId
@@ -109,9 +130,17 @@ class AssignArticlesToPersonsFragment : Fragment() {
             binding.etName.text = Editable.Factory.getInstance().newEditable("")
             binding.etPrice.text = Editable.Factory.getInstance().newEditable("")
             binding.etAmount.text = Editable.Factory.getInstance().newEditable("")
+            binding.etNameOfPersonSharing.text = Editable.Factory.getInstance().newEditable("")
 
             runBlocking {
-                db.insertArticle(Article(0, receiptnumber, price, amount, name, unit))
+                val articleId: Long =
+                    db.insertArticle(Article(0, receiptNumber, price, amount, name))
+                if (nameOfPersonSharing.isNotBlank()) {
+                    val personId: Int = db.getPersonIDByName(nameOfPersonSharing)
+                    val crossRef = PersonArticleCrossRef(personId, articleId.toInt())
+                    db.insertPersonArticleCrossRef(crossRef)
+                }
+
             }
         }
 

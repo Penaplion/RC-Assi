@@ -29,27 +29,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvFragmentTitle" />
 
-    <EditText
-        android:id="@+id/etNameOfPersonSharing"
-        android:layout_width="127dp"
-        android:layout_height="43dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:ems="10"
-        android:hint="@string/share_with"
-        android:importantForAutofill="no"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="@+id/etPrice"
-        app:layout_constraintStart_toStartOf="@+id/etPrice"
-        app:layout_constraintTop_toBottomOf="@+id/etPrice" />
-
     <Spinner
         android:id="@+id/spinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         app:layout_constraintBottom_toBottomOf="@+id/etAmount"
+        app:layout_constraintEnd_toStartOf="@+id/spinnerAssignPerson"
         app:layout_constraintStart_toEndOf="@+id/etAmount"
         app:layout_constraintTop_toTopOf="@+id/etAmount"
         app:layout_constraintVertical_bias="0.526" />
@@ -139,9 +126,9 @@
         android:id="@+id/spinnerAssignPerson"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        app:layout_constraintBottom_toBottomOf="@+id/etPrice"
-        app:layout_constraintStart_toEndOf="@+id/etPrice"
-        app:layout_constraintTop_toTopOf="@+id/etPrice" />
+        app:layout_constraintBottom_toBottomOf="@+id/etAmount"
+        app:layout_constraintEnd_toEndOf="@+id/etPrice"
+        app:layout_constraintTop_toTopOf="@+id/etAmount"
+        app:layout_constraintVertical_bias="0.526" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

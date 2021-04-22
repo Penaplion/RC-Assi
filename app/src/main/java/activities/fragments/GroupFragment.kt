@@ -37,7 +37,7 @@ class GroupFragment : Fragment() {
                 val stringMember = getString(R.string.member)
                 val amount = it.memberCount.toString()
                 groupList += GroupItem(
-                    R.drawable.ic_launcher_background,
+                    R.drawable.ic_baseline_group_24,
                     it.groupName,
                     "$stringMember $amount",
                     it.group_id

@@ -34,7 +34,13 @@ class ReceiptWithArticlesAdapter(private val articleList: List<ArticleItem>) :
             }
 
             binding.tvAssignments.text = currentItem.assignment
-            val price = "%.2f".format(currentItem.price * currentItem.amount)
+            var price = ""
+            price = if(currentItem.unit == "g"){
+                "%.2f".format(currentItem.price * currentItem.amount*0.01)
+            }else{
+                "%.2f".format(currentItem.price * currentItem.amount)
+            }
+
             binding.tvPrice.text = price + holder.itemView.context.getString(R.string.currency_symbol)
         }
     }

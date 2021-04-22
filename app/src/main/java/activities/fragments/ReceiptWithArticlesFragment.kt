@@ -48,7 +48,7 @@ class ReceiptWithArticlesFragment : Fragment() {
                     it.amount,
                     it.name,
                     it.unit,
-                    "unknown" // TODO("missing")
+                    db.getPersonsOfArticle(it.article_id)[0].persons[0].person_name
                 )
             }
         }
